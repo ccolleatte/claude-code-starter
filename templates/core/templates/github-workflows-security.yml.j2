@@ -1,0 +1,51 @@
+name: security
+on: [push, pull_request, schedule]
+jobs:
+  sast-secrets-sca:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: step-security/harden-runner@v2
+        with: { egress-policy: block }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      # Installation des outils de sécurité
+      - name: Install security tools
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'pipx install semgrep'
+          curl -sSL https://raw.githubusercontent.com/gitleaks/gitleaks/master/install.sh | bash
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+          npm i -g @aquasecurity/trivy
+
+      - name: Create reports directory
+        run: mkdir -p {{ reports_dir }}
+
+      # Scans de sécurité avec gestion d'erreur contextuelle
+      - name: SAST Analysis (Semgrep)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'semgrep ci --config {{ semgrep_config }} --json --output {{ reports_dir }}/semgrep.json'
+
+      - name: Secret Detection (Gitleaks)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline './gitleaks detect --report-format json --report-path {{ reports_dir }}/gitleaks.json'
+
+      - name: Generate SBOM
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'syft packages . -o {{ sbom_format }} > {{ reports_dir }}/sbom.json'
+
+      - name: Vulnerability Scan (Grype)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'grype sbom:{{ reports_dir }}/sbom.json --fail-on High -o json > {{ reports_dir }}/grype.json'
+
+      - name: Container/FS Scan (Trivy)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'trivy fs --scanners vuln,secret,config --format json --output {{ reports_dir }}/trivy-fs.json .'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: {{ reports_dir }}

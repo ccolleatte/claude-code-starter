@@ -1,0 +1,40 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write $CLAUDE_FILE_PATHS"
+          },
+          {
+            "type": "command",
+            "command": "python .claude-meta/safe-runner.py --context claude_hooks 'npx eslint --fix $CLAUDE_FILE_PATHS'"
+          },
+          {
+            "type": "command",
+            "command": "python .claude-meta/safe-runner.py --context claude_hooks 'ruff --fix $CLAUDE_FILE_PATHS'"
+          },
+          {
+            "type": "command",
+            "command": "python .claude-meta/safe-runner.py --context claude_hooks 'black $CLAUDE_FILE_PATHS'"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude-meta/safe-runner.py --context claude_hooks 'npm run test:quick'"
+          },
+          {
+            "type": "command",
+            "command": "python .claude-meta/safe-runner.py --context claude_hooks 'pytest -q'"
+          }
+        ]
+      }
+    ]
+  }
+}

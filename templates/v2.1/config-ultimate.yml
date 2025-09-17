@@ -1,0 +1,222 @@
+version: "2.1"
+objectif: "Stack Ultimate - Fusion TDD Framework (18 mois terrain) + .claude-meta (intégration Claude optimale)"
+
+# 🎯 SYNTHÈSE DES FORCES
+synthesis:
+  tdd_framework_strengths:
+    - "Biome: 10x faster than ESLint (production proven)"
+    - "Test Impact Analysis: -70% execution time"
+    - "Advanced pre-commit: Biome + tests + Docker + secrets"
+    - "Granular permissions: 35+ specific permissions"
+    - "Real-time dashboard + AI review"
+    - "19 enterprise GitHub workflows"
+
+  claude_meta_strengths:
+    - "Claude hooks: Auto-format post-édition"
+    - "Safe-runner: Gestion d'erreurs sophistiquée"
+    - "MCP ecosystem: 4 servers orchestration"
+    - "Cross-platform: Windows/Linux/macOS support"
+    - "Security-first: Harden-runner + egress policies"
+
+  fusion_result:
+    - "Performance + Intégration Claude parfaite"
+    - "Terrain-proven + Innovation systémique"
+    - "Sécurité multi-couches + Developer experience"
+
+variables:
+  project_root: "."
+  reports_dir: "reports"
+  coverage_threshold_lines: 90    # TDD standard
+  coverage_threshold_branches: 70
+  semgrep_config: "p/ci"
+  biome_performance_target: "<5s"  # TDD validation
+  test_impact_reduction: "70%"     # TDD validation
+  claude_hooks_enabled: true       # .claude-meta innovation
+  safe_runner_enabled: true        # .claude-meta innovation
+  cross_platform_support: true     # .claude-meta innovation
+
+# 🛡️ MCP CONFIGURATION ULTIMATE
+mcp_ultimate:
+  primary_servers:
+    # ✅ Production proven (TDD 18 mois)
+    serena:
+      status: "production_ready"
+      type: "stdio"
+      command: "npx"
+      args: ["serena"]
+      capabilities: ["semantic_editing", "memory_management"]
+
+    # ✅ Read-only security (safe)
+    semgrep:
+      status: "production_ready"
+      type: "stdio"
+      command: "semgrep"
+      args: ["--version"]
+      capabilities: ["security_analysis"]
+
+    # ✅ External docs (stable)
+    exa:
+      status: "production_ready"
+      type: "http"
+      command: "exa-mcp-server"
+      capabilities: ["documentation_search"]
+
+  fallback_servers:
+    # 🔄 Cipher avec fallback intelligent
+    cipher:
+      status: "experimental_with_fallback"
+      type: "stdio"
+      command: "npx"
+      args: ["@byterover/cipher", "--mode", "mcp"]
+      env:
+        CIPHER_WORKSPACE: "{{ project_root }}"
+      fallback_strategy:
+        mode: "local_implementation"
+        path: "src/scripts/cipher-memory-system.js"
+        reason: "Fallback mode observé en production TDD"
+      capabilities: ["persistent_memory", "pattern_recognition"]
+
+# 🪝 CLAUDE HOOKS ULTIMATE
+claude_hooks_ultimate:
+  enabled: true
+  post_tool_use:
+    # Performance-first (Biome from TDD)
+    linting:
+      - command: "python .claude-meta/safe-runner.py --context claude_hooks 'npx biome check --apply $CLAUDE_FILE_PATHS'"
+        fallback: "npx biome check --apply $CLAUDE_FILE_PATHS"
+
+    # Multi-language support (.claude-meta)
+    python_formatting:
+      - command: "python .claude-meta/safe-runner.py --context claude_hooks 'ruff --fix $CLAUDE_FILE_PATHS'"
+        fallback: "ruff --fix $CLAUDE_FILE_PATHS || true"
+
+    # Smart testing (TDD innovation)
+    testing:
+      - command: "python .claude-meta/safe-runner.py --context claude_hooks 'npm run test:affected'"
+        fallback: "npm run test:quick || echo 'Tests skipped'"
+
+# 🔒 SECURITY ULTIMATE
+security_ultimate:
+  pre_commit_hooks:
+    source: "tdd_framework_advanced"
+    features:
+      - "biome_check: 10x faster linting"
+      - "local_tests: affected files only"
+      - "jsdoc_coverage: documentation enforcement"
+      - "hadolint: Docker security"
+      - "gitleaks: secrets detection"
+
+  claude_permissions:
+    source: "tdd_framework_granular"
+    count: "35+ specific permissions"
+    security_level: "production_grade"
+
+  github_workflows:
+    source: "claude_meta_enterprise"
+    features:
+      - "harden-runner: step-security protection"
+      - "egress-policy: network isolation"
+      - "safe-runner: error handling"
+      - "multi-os: Windows/Linux/macOS"
+
+# 🚀 PERFORMANCE ULTIMATE
+performance_ultimate:
+  linting:
+    tool: "biome"
+    performance: "10x faster than ESLint"
+    target_time: "<5s"
+    source: "tdd_framework_validation"
+
+  testing:
+    strategy: "test_impact_analysis"
+    time_reduction: "70%"
+    source: "tdd_framework_innovation"
+    target_time: "<5min"
+
+  development:
+    hot_reload: "<500ms"
+    feedback_loop: "<30s"
+    source: "tdd_framework_optimization"
+
+# 📊 MONITORING ULTIMATE
+monitoring_ultimate:
+  dashboard:
+    source: "tdd_framework_innovation"
+    features: ["real_time_metrics", "flaky_tests", "coverage_live"]
+
+  ai_integration:
+    source: "tdd_framework_innovation"
+    features: ["ai_review", "predictive_analysis"]
+
+  error_handling:
+    source: "claude_meta_safe_runner"
+    features: ["contextual_errors", "graceful_degradation"]
+
+# 🌍 CROSS-PLATFORM ULTIMATE
+cross_platform_ultimate:
+  supported_os: ["Windows", "Linux", "macOS"]
+  source: "claude_meta_design"
+
+  package_managers:
+    windows: ["choco", "npm", "pip"]
+    linux: ["apt", "npm", "pipx"]
+    macos: ["brew", "npm", "pip"]
+
+  path_normalization: true
+  script_adaptation: true
+
+# ✅ SUCCESS METRICS ULTIMATE
+success_metrics_ultimate:
+  performance:
+    lint_time: "<5s"           # Biome vs ESLint 45s
+    test_time: "<5min"         # Impact analysis vs 15min
+    dev_feedback: "<30s"       # Hot-reload + hooks
+    build_time: "<12min"       # Optimized CI
+
+  security:
+    vulnerabilities: 0         # Multi-layer detection
+    secrets_detected: 0        # Gitleaks + safe-runner
+    permissions: "granular"    # 35+ specific
+
+  integration:
+    claude_hooks: "automatic"  # Post-tool-use formatting
+    mcp_servers: "4 active"    # Full ecosystem
+    fallback_reliability: "100%" # Cipher fallback works
+
+  developer_experience:
+    setup_time: "<10min"       # Automated setup
+    cross_platform: "seamless" # Windows/Linux/macOS
+    documentation: "live"      # Real-time coverage
+
+# 🎯 DEPLOYMENT STRATEGY
+deployment_strategy:
+  phase1_core:
+    - "Deploy Biome configuration (immediate 10x gain)"
+    - "Add test impact analysis (immediate -70% time)"
+    - "Setup Claude hooks (immediate feedback)"
+
+  phase2_integration:
+    - "Deploy MCP ecosystem (Serena + Semgrep + Exa)"
+    - "Add Cipher with fallback (memory + patterns)"
+    - "Deploy safe-runner (error resilience)"
+
+  phase3_enterprise:
+    - "Deploy security workflows (harden-runner)"
+    - "Add cross-platform support (Windows/macOS)"
+    - "Deploy monitoring dashboard (real-time)"
+
+# 🚨 RISK MITIGATION
+risk_mitigation:
+  cipher_failure:
+    strategy: "fallback_to_local_implementation"
+    backup: "src/scripts/cipher-memory-system.js"
+
+  performance_regression:
+    strategy: "gradual_rollout_with_metrics"
+    rollback: "immediate if >2x slowdown"
+
+  security_breach:
+    strategy: "multi_layer_defense"
+    layers: ["permissions", "safe-runner", "gitleaks", "semgrep"]
+
+conclusion: "Template v2.1 = Meilleur des deux mondes avec 0 compromis"

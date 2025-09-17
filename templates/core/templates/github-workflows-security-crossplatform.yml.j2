@@ -1,0 +1,70 @@
+name: security-crossplatform
+on: [push, pull_request, schedule]
+
+jobs:
+  security-matrix:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: darwin
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: block
+        if: matrix.platform == 'linux'  # Harden-runner uniquement sur Linux
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      # Installation cross-platform des outils de sécurité
+      - name: Install security tools (Cross-platform)
+        run: |
+          python .claude-meta/platform-utils.py install-tool --tool semgrep
+          python .claude-meta/platform-utils.py install-tool --tool gitleaks
+          python .claude-meta/platform-utils.py install-tool --tool syft
+          python .claude-meta/platform-utils.py install-tool --tool grype
+          python .claude-meta/platform-utils.py install-tool --tool trivy
+
+      # Création répertoire reports (cross-platform)
+      - name: Create reports directory
+        run: python .claude-meta/platform-utils.py create-dir --path {{ reports_dir }}
+
+      # Scans de sécurité avec gestion d'erreur contextuelle
+      - name: SAST Analysis (Semgrep)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'semgrep ci --config {{ semgrep_config }} --json --output {{ reports_dir }}/semgrep.json'
+
+      - name: Secret Detection (Gitleaks)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'gitleaks detect --report-format json --report-path {{ reports_dir }}/gitleaks.json'
+
+      - name: Generate SBOM
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'syft packages . -o {{ sbom_format }} > {{ reports_dir }}/sbom.json'
+
+      - name: Vulnerability Scan (Grype)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'grype sbom:{{ reports_dir }}/sbom.json --fail-on High -o json > {{ reports_dir }}/grype.json'
+
+      - name: Container/FS Scan (Trivy)
+        run: |
+          python .claude-meta/safe-runner.py --context ci_pipeline 'trivy fs --scanners vuln,secret,config --format json --output {{ reports_dir }}/trivy-fs.json .'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: security-reports-${{ matrix.platform }}
+          path: {{ reports_dir }}

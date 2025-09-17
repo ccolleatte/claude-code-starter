@@ -1,0 +1,307 @@
+name: 🤝 Community & Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run community metrics daily at 00:00 UTC
+    - cron: '0 0 * * *'
+
+jobs:
+  # Validate repository structure and content
+  validate-structure:
+    name: 📋 Validate Repository Structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Check required files
+        run: |
+          echo "Checking required files..."
+          test -f README.md || { echo "❌ README.md missing"; exit 1; }
+          test -f CONTRIBUTING.md || { echo "❌ CONTRIBUTING.md missing"; exit 1; }
+          test -f LICENSE || { echo "❌ LICENSE missing"; exit 1; }
+          test -d .github/ISSUE_TEMPLATE || { echo "❌ Issue templates missing"; exit 1; }
+          echo "✅ All required files present"
+
+      - name: 📊 Validate stack templates
+        run: |
+          echo "Validating stack templates..."
+          for template in stack-templates/*/; do
+            if [ -d "$template" ]; then
+              echo "Checking $template"
+              test -f "$template/README.md" || echo "⚠️ Missing README in $template"
+              test -f "$template/package.json" || echo "⚠️ Missing package.json in $template"
+            fi
+          done
+
+      - name: 🔧 Validate quality templates
+        run: |
+          echo "Validating quality templates..."
+          test -d quality-templates || { echo "❌ quality-templates directory missing"; exit 1; }
+          echo "✅ Quality templates structure valid"
+
+      - name: 🤖 Validate external intelligence
+        run: |
+          echo "Validating external intelligence..."
+          test -d external-intelligence || { echo "❌ external-intelligence directory missing"; exit 1; }
+          test -f external-intelligence/README.md || echo "⚠️ Missing external-intelligence README"
+          echo "✅ External intelligence structure valid"
+
+  # Check documentation quality
+  docs-quality:
+    name: 📚 Documentation Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Check README completeness
+        run: |
+          echo "Checking README.md quality..."
+
+          # Check for essential sections
+          grep -q "Quick Start\|Getting Started" README.md || { echo "❌ Missing Quick Start section"; exit 1; }
+          grep -q "Installation\|Setup" README.md || { echo "❌ Missing Installation section"; exit 1; }
+          grep -q "Contributing\|Community" README.md || { echo "❌ Missing Contributing section"; exit 1; }
+
+          # Check bilingual content
+          grep -q "🇺🇸 English" README.md || { echo "❌ Missing English section"; exit 1; }
+          grep -q "🇫🇷 Français" README.md || { echo "❌ Missing French section"; exit 1; }
+
+          echo "✅ README.md quality check passed"
+
+      - name: 🔗 Check for broken links
+        run: |
+          echo "Checking for broken internal links..."
+          # Extract markdown links
+          grep -oE '\[.*\]\([^)]+\)' README.md | while read link; do
+            file=$(echo "$link" | sed 's/.*](\([^)]*\)).*/\1/')
+            if [[ "$file" != http* ]] && [[ "$file" != "#"* ]] && [ ! -f "$file" ] && [ ! -d "$file" ]; then
+              echo "⚠️ Potentially broken link: $file"
+            fi
+          done || true
+
+      - name: 📝 Check CONTRIBUTING.md
+        run: |
+          if [ -f CONTRIBUTING.md ]; then
+            echo "✅ CONTRIBUTING.md exists"
+            grep -q "Getting Started\|Quick Start" CONTRIBUTING.md || echo "⚠️ Missing Getting Started in CONTRIBUTING.md"
+            grep -q "Code of Conduct\|Guidelines" CONTRIBUTING.md || echo "⚠️ Missing Guidelines in CONTRIBUTING.md"
+          else
+            echo "❌ CONTRIBUTING.md missing"
+            exit 1
+          fi
+
+  # Security and compliance checks
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🛡️ Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+      - name: 🔍 Security audit (if package.json exists)
+        run: |
+          if [ -f package.json ]; then
+            npm audit --audit-level moderate || echo "⚠️ Security audit completed with findings"
+          fi
+
+          # Check for common security issues in scripts
+          echo "Checking Python scripts for security issues..."
+          find . -name "*.py" -exec grep -l "eval\|exec\|subprocess\.call" {} \; | while read file; do
+            echo "⚠️ Potential security issue in $file (eval/exec/subprocess.call)"
+          done || true
+
+  # Community metrics and stats
+  community-metrics:
+    name: 📊 Community Metrics
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'push'
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📊 Generate community stats
+        run: |
+          echo "📊 Repository Statistics"
+          echo "======================="
+
+          # Repository stats
+          echo "📁 Repository Info:"
+          echo "   - Default Branch: $(git branch --show-current)"
+          echo "   - Total Commits: $(git rev-list --count HEAD)"
+          echo "   - Contributors: $(git log --format='%aN' | sort -u | wc -l)"
+
+          # File statistics
+          echo ""
+          echo "📄 Content Statistics:"
+          echo "   - Total Files: $(find . -type f | wc -l)"
+          echo "   - Python Files: $(find . -name "*.py" | wc -l)"
+          echo "   - JavaScript Files: $(find . -name "*.js" -o -name "*.mjs" | wc -l)"
+          echo "   - Markdown Files: $(find . -name "*.md" | wc -l)"
+          echo "   - YAML Files: $(find . -name "*.yml" -o -name "*.yaml" | wc -l)"
+
+          # Template statistics
+          echo ""
+          echo "🎯 Template Statistics:"
+          echo "   - Stack Templates: $(find stack-templates* -maxdepth 1 -type d | wc -l)"
+          echo "   - Quality Templates: $(find quality-templates -maxdepth 1 -type d 2>/dev/null | wc -l || echo 0)"
+
+          # Documentation
+          echo ""
+          echo "📚 Documentation:"
+          echo "   - README Size: $(wc -l < README.md) lines"
+          echo "   - Has CONTRIBUTING: $([ -f CONTRIBUTING.md ] && echo "✅" || echo "❌")"
+          echo "   - Has LICENSE: $([ -f LICENSE ] && echo "✅" || echo "❌")"
+
+      - name: 🎯 Check project health
+        run: |
+          echo ""
+          echo "🏥 Project Health Check"
+          echo "======================"
+
+          # Check for recent activity
+          LAST_COMMIT=$(git log -1 --format="%cr")
+          echo "   - Last Commit: $LAST_COMMIT"
+
+          # Check for open issues (simulated)
+          echo "   - Issues: Check GitHub for current status"
+          echo "   - PRs: Check GitHub for current status"
+
+          # Check documentation freshness
+          README_AGE=$(stat -c %Y README.md 2>/dev/null || stat -f %m README.md 2>/dev/null || echo "unknown")
+          echo "   - README Last Modified: $(date -d @$README_AGE 2>/dev/null || date -r $README_AGE 2>/dev/null || echo "unknown")"
+
+  # Template validation
+  template-validation:
+    name: 🎯 Template Validation
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        template-dir: ["stack-templates", "stack-templates-v2", "quality-templates"]
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Validate ${{ matrix.template-dir }}
+        run: |
+          if [ -d "${{ matrix.template-dir }}" ]; then
+            echo "Validating ${{ matrix.template-dir }}..."
+
+            # Count templates
+            TEMPLATE_COUNT=$(find ${{ matrix.template-dir }} -maxdepth 1 -type d | tail -n +2 | wc -l)
+            echo "Found $TEMPLATE_COUNT templates in ${{ matrix.template-dir }}"
+
+            # Validate each template
+            find ${{ matrix.template-dir }} -maxdepth 1 -type d | tail -n +2 | while read template; do
+              echo "Checking $template..."
+
+              # Check for README
+              if [ ! -f "$template/README.md" ]; then
+                echo "⚠️ Missing README.md in $template"
+              fi
+
+              # Check for package.json if it's a Node.js template
+              if [ -f "$template/package.json" ]; then
+                echo "✅ Found package.json in $template"
+                # Basic package.json validation
+                node -pe "JSON.parse(require('fs').readFileSync('$template/package.json'))" > /dev/null || {
+                  echo "❌ Invalid JSON in $template/package.json"
+                }
+              fi
+
+              # Check for common files
+              [ -f "$template/.gitignore" ] && echo "✅ Found .gitignore in $template"
+              [ -f "$template/LICENSE" ] && echo "✅ Found LICENSE in $template"
+            done
+          else
+            echo "⚠️ Directory ${{ matrix.template-dir }} not found"
+          fi
+
+  # External intelligence validation
+  external-intelligence-check:
+    name: 🧠 External Intelligence Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🤖 Validate External Intelligence
+        run: |
+          if [ -d "external-intelligence" ]; then
+            echo "Validating External Intelligence system..."
+
+            # Check core components
+            [ -f "external-intelligence/README.md" ] && echo "✅ Documentation present"
+            [ -d "external-intelligence/analyzers" ] && echo "✅ Analyzers directory present"
+            [ -d "external-intelligence/automation" ] && echo "✅ Automation directory present"
+
+            # Check for key files
+            find external-intelligence -name "*.js" | head -5 | while read file; do
+              echo "Found analyzer: $file"
+            done
+
+            echo "✅ External Intelligence validation complete"
+          else
+            echo "⚠️ External Intelligence directory not found"
+          fi
+
+  # Quality metrics
+  quality-metrics:
+    name: 📈 Quality Metrics
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📊 Calculate quality metrics
+        run: |
+          echo "📈 Repository Quality Metrics"
+          echo "============================"
+
+          # Documentation coverage
+          DOC_FILES=$(find . -name "*.md" | wc -l)
+          TOTAL_DIRS=$(find . -type d | wc -l)
+          DOC_COVERAGE=$((DOC_FILES * 100 / TOTAL_DIRS))
+          echo "📚 Documentation Coverage: $DOC_COVERAGE% ($DOC_FILES docs for $TOTAL_DIRS directories)"
+
+          # Template completeness
+          if [ -d "stack-templates" ]; then
+            TEMPLATES_WITH_README=$(find stack-templates -name "README.md" | wc -l)
+            TOTAL_TEMPLATES=$(find stack-templates -maxdepth 1 -type d | tail -n +2 | wc -l)
+            if [ $TOTAL_TEMPLATES -gt 0 ]; then
+              TEMPLATE_COMPLETENESS=$((TEMPLATES_WITH_README * 100 / TOTAL_TEMPLATES))
+              echo "🎯 Template Completeness: $TEMPLATE_COMPLETENESS% ($TEMPLATES_WITH_README/$TOTAL_TEMPLATES have READMEs)"
+            fi
+          fi
+
+          # Security file presence
+          SECURITY_SCORE=0
+          [ -f "LICENSE" ] && SECURITY_SCORE=$((SECURITY_SCORE + 25))
+          [ -f "CONTRIBUTING.md" ] && SECURITY_SCORE=$((SECURITY_SCORE + 25))
+          [ -f ".github/ISSUE_TEMPLATE/bug_report.yml" ] && SECURITY_SCORE=$((SECURITY_SCORE + 25))
+          [ -f ".github/workflows/community.yml" ] && SECURITY_SCORE=$((SECURITY_SCORE + 25))
+          echo "🔒 Community Health Score: $SECURITY_SCORE/100"
+
+          # Overall quality grade
+          OVERALL_SCORE=$(((DOC_COVERAGE + TEMPLATE_COMPLETENESS + SECURITY_SCORE) / 3))
+          if [ $OVERALL_SCORE -ge 90 ]; then
+            echo "🏆 Overall Quality Grade: A+ ($OVERALL_SCORE/100)"
+          elif [ $OVERALL_SCORE -ge 80 ]; then
+            echo "🥈 Overall Quality Grade: A ($OVERALL_SCORE/100)"
+          elif [ $OVERALL_SCORE -ge 70 ]; then
+            echo "🥉 Overall Quality Grade: B ($OVERALL_SCORE/100)"
+          else
+            echo "📚 Overall Quality Grade: C ($OVERALL_SCORE/100) - Room for improvement"
+          fi

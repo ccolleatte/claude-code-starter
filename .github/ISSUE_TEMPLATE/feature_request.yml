@@ -1,0 +1,142 @@
+name: 💡 Feature Request
+description: Suggest an idea for this project
+title: "[FEATURE] "
+labels: ["enhancement", "needs-discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! 🚀
+
+        Before submitting, please:
+        - Check if this feature already exists
+        - Search existing feature requests
+        - Consider if this fits the project's scope
+
+  - type: dropdown
+    id: feature-category
+    attributes:
+      label: 📦 Feature Category
+      description: What category does this feature belong to?
+      options:
+        - Template (new template or template improvement)
+        - CLI (command-line interface enhancement)
+        - Documentation (docs improvement)
+        - Quality Tools (testing, linting, performance)
+        - Developer Experience (workflow, automation)
+        - Community (discussions, showcase, examples)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: 🤔 Problem Description
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution-description
+    attributes:
+      label: 💡 Proposed Solution
+      description: Describe the solution you'd like
+      placeholder: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives-considered
+    attributes:
+      label: 🔄 Alternatives Considered
+      description: Describe alternatives you've considered
+      placeholder: A clear and concise description of any alternative solutions or features you've considered.
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: 🎯 Use Case
+      description: Describe your specific use case
+      placeholder: |
+        Help us understand how you would use this feature:
+        - What problem does it solve?
+        - How would it fit into your workflow?
+        - Who else might benefit from this?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: ⚡ Priority
+      description: How important is this feature to you?
+      options:
+        - Low (nice to have)
+        - Medium (would improve my workflow)
+        - High (blocking my productivity)
+        - Critical (can't work without it)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: 🔧 Estimated Complexity
+      description: How complex do you think this feature might be to implement?
+      options:
+        - Simple (small change, few lines of code)
+        - Medium (new functionality, moderate changes)
+        - Complex (significant changes, new systems)
+        - Unknown (not sure)
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-ideas
+    attributes:
+      label: 🛠️ Implementation Ideas
+      description: If you have ideas about how this could be implemented, share them here
+      placeholder: |
+        Any thoughts on implementation? Consider:
+        - Technical approach
+        - Breaking changes
+        - Backward compatibility
+        - Testing requirements
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: 📚 Examples
+      description: Provide examples, mockups, or references
+      placeholder: |
+        Examples help us understand your vision:
+        - Code examples
+        - UI mockups
+        - Similar implementations in other projects
+        - Links to relevant resources
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: 🤝 Contribution
+      description: Would you be interested in contributing?
+      options:
+        - label: I would be willing to implement this feature
+        - label: I would be willing to help with testing
+        - label: I would be willing to help with documentation
+        - label: I would be willing to provide feedback during development
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing feature requests to avoid duplicates
+          required: true
+        - label: This feature request is within the scope of this project
+          required: true
+        - label: I have provided enough detail for the maintainers to understand the request
+          required: true

@@ -1,0 +1,26 @@
+{
+  "scripts": {
+    "test:quick": "jest -i --reporters=default --reporters=jest-junit",
+    "test:ci": "jest --coverage --coverageReporters=cobertura,text-summary",
+    "lint:js": "eslint .",
+    "fmt:js": "prettier -w .",
+    "fmt:py": "black . && ruff --fix .",
+    "e2e": "playwright test --reporter=line",
+    "semgrep:ci": "semgrep ci --config {{ semgrep_config }} --json --output {{ reports_dir }}/semgrep.json",
+    "gitleaks:ci": "gitleaks detect --report-format json --report-path {{ reports_dir }}/gitleaks.json",
+    "sbom:gen": "syft packages . -o {{ sbom_format }} > {{ reports_dir }}/sbom.json",
+    "grype:ci": "grype sbom:{{ reports_dir }}/sbom.json --fail-on High -o json > {{ reports_dir }}/grype.json",
+    "trivy:fs": "trivy fs --scanners vuln,secret,config --format json --output {{ reports_dir }}/trivy-fs.json .",
+    "opa:test": "conftest test --policy {{ opa_policy_dir }}",
+    "mutation": "stryker run",
+    "precommit": "npm run fmt:js && npm run lint:js"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.3.0",
+    "@stryker-mutator/core": "^8.1.0",
+    "@playwright/test": "^1.47.0"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "serena": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["serena"],
+      "env": {}
+    },
+    "cipher": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@byterover/cipher", "--mode", "mcp"],
+      "env": {
+        "CIPHER_WORKSPACE": "{{ project_root }}"
+      }
+    },
+    "semgrep": {
+      "type": "stdio",
+      "command": "semgrep",
+      "args": ["--version"]
+    },
+    "exa": {
+      "type": "http",
+      "command": "exa-mcp-server",
+      "args": [],
+      "env": {}
+    }
+  }
+}

@@ -1,0 +1,120 @@
+version: "1.0"
+objectif: "déployer une pile Claude Code robuste (édition sémantique, mémoire persistante, QA, sécurité, observabilité) sans affaiblir les garde-fous"
+
+variables:
+  project_root: "."
+  reports_dir: "reports"
+  coverage_threshold_lines: 80
+  coverage_threshold_branches: 70
+  semgrep_config: "p/ci"
+  semgrep_fail_on: "error"
+  codeql_languages: ["javascript", "python"]
+  sbom_format: "cyclonedx-json"
+  opa_policy_dir: "policy"
+  otel_endpoint: "http://localhost:4317"
+  otel_protocol: "grpc"
+
+quality_gates:
+  tests:
+    required: true
+    coverage_lines_min: 80
+    coverage_branches_min: 70
+    block_on_fail: true
+  sast:
+    semgrep_policy: "high+medium block, low warn"
+    block_on: ["HIGH", "CRITICAL"]
+  sca:
+    block_on_vuln_severity: ["CRITICAL", "HIGH"]
+    licenses_denylist: ["AGPL-3.0", "SSPL-1.0"]
+  secrets:
+    block_on_detection: true
+  policy:
+    opa_must_pass: true
+  images:
+    block_on_trivy: ["CRITICAL", "HIGH"]
+
+hypotheses:
+  - "projet mono-repo avec frontend (Node) et/ou backend (Python)"
+  - "Claude Code installé (desktop/IDE) avec support MCP"
+  - "GitHub Actions utilisé pour la CI (adaptable à GitLab/Jenkins)"
+  - "environnement dev conteneurisé ou isolé (devcontainer/podman rootless) recommandé"
+
+# Configuration cross-platform
+platform_config:
+  paths:
+    # Chemins normalisés par plateforme
+    bin_dir:
+      windows: "%LOCALAPPDATA%\\Programs"
+      linux: "/usr/local/bin"
+      darwin: "/usr/local/bin"
+
+    temp_dir:
+      windows: "%TEMP%"
+      linux: "/tmp"
+      darwin: "/tmp"
+
+    home_dir:
+      windows: "%USERPROFILE%"
+      linux: "$HOME"
+      darwin: "$HOME"
+
+  environment:
+    # Variables d'environnement cross-platform
+    path_separator:
+      windows: ";"
+      linux: ":"
+      darwin: ":"
+
+    script_extension:
+      windows: ".bat"
+      linux: ".sh"
+      darwin: ".sh"
+
+    executable_extensions:
+      windows: [".exe", ".bat", ".cmd"]
+      linux: [""]
+      darwin: [""]
+
+  package_managers:
+    # Gestionnaires de paquets par plateforme
+    primary:
+      windows: "choco"      # Chocolatey
+      linux: "apt"          # Ubuntu/Debian
+      darwin: "brew"        # Homebrew
+
+    python:
+      windows: "pip"
+      linux: "pipx"
+      darwin: "pip"
+
+    node:
+      windows: "npm"
+      linux: "npm"
+      darwin: "npm"
+
+  tool_installation:
+    # Méthodes d'installation des outils par plateforme
+    semgrep:
+      windows: ["pip", "install", "semgrep"]
+      linux: ["pipx", "install", "semgrep"]
+      darwin: ["brew", "install", "semgrep"]
+
+    gitleaks:
+      windows: ["choco", "install", "gitleaks"]
+      linux: ["curl", "install_script"]
+      darwin: ["brew", "install", "gitleaks"]
+
+    syft:
+      windows: ["choco", "install", "syft"]
+      linux: ["curl", "install_script"]
+      darwin: ["brew", "install", "syft"]
+
+    grype:
+      windows: ["choco", "install", "grype"]
+      linux: ["curl", "install_script"]
+      darwin: ["brew", "install", "grype"]
+
+    trivy:
+      windows: ["choco", "install", "trivy"]
+      linux: ["curl", "install_script"]
+      darwin: ["brew", "install", "trivy"]

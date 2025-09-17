@@ -1,0 +1,85 @@
+{
+  "permissions": {
+    "_comment": "🔐 Auto-Permissions pour Cipher actif au redémarrage Claude Code",
+
+    "allow": [
+      "_comment_core": "=== CORE CLAUDE TOOLS ===",
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(npx:*)",
+      "Bash(ls:*)",
+      "Bash(dir:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Read(//c/dev/**)",
+
+      "_comment_serena": "=== SERENA MCP (Production proven) ===",
+      "mcp__serena__list_dir",
+      "mcp__serena__activate_project",
+      "mcp__serena__read_file",
+      "mcp__serena__replace_regex",
+      "mcp__serena__find_symbol",
+      "mcp__serena__think_about_collected_information",
+      "mcp__serena__create_text_file",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__execute_shell_command",
+      "mcp__serena__list_memories",
+      "mcp__serena__write_memory",
+      "mcp__serena__get_current_config",
+
+      "_comment_cipher": "=== CIPHER MCP (Auto-active avec fallback) ===",
+      "mcp__cipher__*",
+      "Bash(npx @byterover/cipher:*)",
+      "Bash(cipher:*)",
+      "Read(//c/dev/.cipher/**)",
+      "Write(//c/dev/.cipher/**)",
+
+      "_comment_cipher_fallback": "=== CIPHER FALLBACK (Local implementation) ===",
+      "Read(src/scripts/cipher-memory-system.js)",
+      "Write(src/scripts/cipher-memory-system.js)",
+      "Read(.cipher/**)",
+      "Write(.cipher/**)",
+
+      "_comment_security": "=== SECURITY MCP (Read-only safe) ===",
+      "mcp__semgrep__security_check",
+      "mcp__semgrep__semgrep_scan",
+      "mcp__semgrep__semgrep_findings",
+
+      "_comment_documentation": "=== EXA MCP (External docs) ===",
+      "mcp__exa__search_docs",
+      "mcp__exa__get_documentation",
+
+      "_comment_development": "=== DEVELOPMENT TOOLS ===",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(curl:*)",
+      "Bash(timeout:*)",
+      "Bash(where:*)",
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(sed:*)",
+      "Bash(grep:*)"
+    ],
+
+    "deny": [],
+    "ask": []
+  },
+
+  "_auto_configuration": {
+    "cipher_startup": {
+      "enabled": true,
+      "auto_retry": true,
+      "fallback_mode": true,
+      "permissions_preloaded": true
+    },
+    "validation": "Toutes permissions Cipher incluses pour activation automatique"
+  },
+
+  "_template_benefits": {
+    "no_manual_setup": "Cipher actif automatiquement au redémarrage",
+    "comprehensive_permissions": "Toutes permissions MCP incluses",
+    "fallback_ready": "Permissions locales si MCP Cipher échoue",
+    "zero_maintenance": "Pas de modification manuelle nécessaire"
+  }
+}

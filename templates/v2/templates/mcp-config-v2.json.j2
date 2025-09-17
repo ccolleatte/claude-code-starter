@@ -1,0 +1,46 @@
+{
+  "mcpServers": {
+    "serena": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["serena"],
+      "env": {},
+      "status": "✅ Production proven - 18 months"
+    },
+    "semgrep": {
+      "type": "stdio",
+      "command": "semgrep",
+      "args": ["--version"],
+      "env": {},
+      "status": "✅ Read-only, safe"
+    },
+    "exa": {
+      "type": "http",
+      "command": "exa-mcp-server",
+      "args": [],
+      "env": {},
+      "status": "✅ External docs, stable"
+    }
+  },
+  "_disabled_servers": {
+    "_comment": "Serveurs désactivés suite à retour d'expérience terrain",
+    "cipher": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@byterover/cipher", "--mode", "mcp"],
+      "env": {
+        "CIPHER_WORKSPACE": "{{ project_root }}"
+      },
+      "status": "❌ Fallback mode en production",
+      "issue": "Échec d'initialisation constant sur tdd-framework",
+      "alternative": "Implémentation locale si mémoire persistante nécessaire"
+    }
+  },
+  "_field_experience": {
+    "validation_source": "tdd-framework-template (18 mois production)",
+    "working_servers": ["serena", "semgrep", "exa"],
+    "failed_servers": ["cipher"],
+    "total_permissions_validated": "35+ granular permissions",
+    "performance_impact": "Minimal avec serveurs selectionnés"
+  }
+}

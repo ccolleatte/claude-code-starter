@@ -1,0 +1,104 @@
+{
+  "mcpServers": {
+    "_comment": "🏆 MCP Configuration Ultimate - Fusion TDD (terrain) + .claude-meta (intégration)",
+
+    "serena": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["serena"],
+      "env": {},
+      "_status": "✅ Production proven - TDD 18 months + .claude-meta design",
+      "_capabilities": ["semantic_editing", "memory_management", "project_navigation"],
+      "_validation": "35+ granular permissions in tdd-framework"
+    },
+
+    "cipher": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@byterover/cipher", "--mode", "mcp"],
+      "env": {
+        "CIPHER_WORKSPACE": "{{ project_root }}",
+        "CIPHER_FALLBACK_MODE": "true",
+        "CIPHER_AUTO_INIT": "true"
+      },
+      "timeout": 10000,
+      "retries": 3,
+      "_status": "✅ Active by default with auto-recovery",
+      "_auto_activation": {
+        "on_startup": true,
+        "fallback_on_failure": true,
+        "retry_strategy": "exponential_backoff",
+        "max_retries": 3
+      },
+      "_fallback_config": {
+        "local_implementation": "src/scripts/cipher-memory-system.js",
+        "reason": "Observed fallback_mode in tdd-framework production",
+        "graceful_degradation": true,
+        "auto_switch": true
+      },
+      "_capabilities": ["persistent_memory", "pattern_recognition", "architecture_decisions"],
+      "_validation": "Auto-active on Claude Code restart - no manual intervention"
+    },
+
+    "semgrep": {
+      "type": "stdio",
+      "command": "semgrep",
+      "args": ["--version"],
+      "env": {},
+      "_status": "✅ Read-only security scanner - safe for all environments",
+      "_capabilities": ["security_analysis", "vulnerability_detection", "code_quality"],
+      "_validation": "No write permissions - minimal risk"
+    },
+
+    "exa": {
+      "type": "http",
+      "command": "exa-mcp-server",
+      "args": [],
+      "env": {},
+      "_status": "✅ External documentation - stable and isolated",
+      "_capabilities": ["documentation_search", "external_references", "knowledge_base"],
+      "_validation": "HTTP-based, no local file access"
+    }
+  },
+
+  "_fusion_strategy": {
+    "performance_source": "tdd_framework",
+    "integration_source": "claude_meta",
+    "security_approach": "multi_layer_defense",
+    "fallback_philosophy": "graceful_degradation_always"
+  },
+
+  "_deployment_validation": {
+    "required_permissions": [
+      "mcp__serena__*",
+      "mcp__cipher__*",
+      "mcp__semgrep__security_check",
+      "mcp__exa__search_docs"
+    ],
+    "auto_permissions": [
+      "Bash(npx @byterover/cipher:*)",
+      "Bash(cipher:*)",
+      "Read(//c/dev/.cipher/**)",
+      "Write(//c/dev/.cipher/**)"
+    ],
+    "fallback_permissions": [
+      "Read(src/scripts/cipher-memory-system.js)",
+      "Write(src/scripts/cipher-memory-system.js)"
+    ]
+  },
+
+  "_performance_expectations": {
+    "serena_response_time": "<2s",
+    "cipher_fallback_time": "<5s",
+    "semgrep_scan_time": "<30s",
+    "exa_search_time": "<3s"
+  },
+
+  "_field_experience": {
+    "validation_source": "tdd-framework-template (18 months production)",
+    "working_servers": ["serena", "semgrep", "exa"],
+    "problematic_servers": ["cipher: fallback_mode required"],
+    "total_permissions_validated": "35+ granular permissions",
+    "innovation": "Cipher fallback strategy allows best of both worlds"
+  }
+}

@@ -1,0 +1,12 @@
+[tool.pytest.ini_options]
+junit_family = "xunit2"
+addopts = "-q --maxfail=1 --disable-warnings --cov=src --cov-report=xml:{{ reports_dir }}/coverage.xml --junitxml={{ reports_dir }}/junit-py.xml"
+
+[tool.coverage.report]
+fail_under = {{ coverage_threshold_lines }}
+
+[tool.ruff]
+fix = true
+
+[tool.black]
+line-length = 100

@@ -1,0 +1,182 @@
+version: "2.0"
+objectif: "déployer une pile Claude Code RÉALISTE basée sur 18 mois d'expérience terrain (tdd-framework)"
+
+variables:
+  project_root: "."
+  reports_dir: "reports"
+  coverage_threshold_lines: 90    # TDD framework standard
+  coverage_threshold_branches: 70
+  semgrep_config: "p/ci"
+  semgrep_fail_on: "error"
+  codeql_languages: ["javascript", "python"]
+  sbom_format: "cyclonedx-json"
+  opa_policy_dir: "policy"
+  otel_endpoint: "http://localhost:4317"
+  otel_protocol: "grpc"
+
+# LEÇONS TERRAIN: Ce qui marche vs ce qui ne marche pas
+field_experience:
+  proven_technologies:
+    # Performance: 10x gains validés
+    biome_over_eslint:
+      performance_gain: "10x faster"
+      status: "production_proven"
+      config_path: "config/quality/biome.json"
+
+    # Testing: 70% time reduction
+    test_impact_analysis:
+      time_reduction: "70%"
+      status: "production_proven"
+      script_path: "scripts/test-impact-analysis.js"
+
+    # Security: Granular permissions work
+    granular_permissions:
+      permission_count: 35+
+      status: "production_proven"
+      prevents: "security incidents"
+
+    # Quality: Advanced pre-commit
+    advanced_precommit:
+      features: ["biome", "tests", "jsdoc", "hadolint", "gitleaks"]
+      status: "production_proven"
+      performance: "sub-second feedback"
+
+  failed_technologies:
+    # MCP Cipher: Ne fonctionne pas en production
+    cipher_mcp:
+      status: "fallback_mode"
+      issue: "échec d'initialisation constant"
+      fallback: "implémentation locale custom"
+      recommendation: "NE PAS inclure dans templates v2"
+
+    # ESLint classique: Trop lent
+    eslint_classic:
+      status: "deprecated"
+      issue: "45s vs 4.5s avec Biome"
+      replacement: "Biome"
+
+    # Tests complets: Perte de temps
+    full_test_suite:
+      status: "inefficient"
+      issue: "15min vs 4.5min avec impact analysis"
+      replacement: "test impact analysis"
+
+quality_gates:
+  tests:
+    required: true
+    coverage_lines_min: 90       # TDD standard élevé
+    coverage_branches_min: 70
+    block_on_fail: true
+    use_impact_analysis: true    # NOUVEAU: Smart testing
+
+  sast:
+    semgrep_policy: "high+medium block, low warn"
+    block_on: ["HIGH", "CRITICAL"]
+
+  sca:
+    block_on_vuln_severity: ["CRITICAL", "HIGH"]
+    licenses_denylist: ["AGPL-3.0", "SSPL-1.0"]
+
+  secrets:
+    block_on_detection: true
+    tool: "gitleaks"             # Prouvé en production
+
+  linting:
+    tool: "biome"                # NOUVEAU: Remplace ESLint
+    performance_target: "<5s"
+    auto_fix: true
+
+  documentation:
+    jsdoc_coverage: true         # NOUVEAU: Coverage documentation
+    threshold: 80
+
+hypotheses:
+  - "projet mono-repo avec frontend (Node) et/ou backend (Python)"
+  - "Claude Code installé (desktop/IDE) avec support MCP RÉDUIT"
+  - "GitHub Actions utilisé pour la CI (adaptable à GitLab/Jenkins)"
+  - "environnement dev conteneurisé ou isolé (devcontainer/podman rootless) recommandé"
+  - "Cipher MCP DÉSACTIVÉ (non fonctionnel en production)"
+  - "Biome remplace ESLint/Prettier pour performance"
+  - "Test impact analysis obligatoire pour éviter les 15min de build"
+
+# Configuration MCP v2.0 - Réaliste
+mcp_config_v2:
+  enabled_servers:
+    # ✅ Prouvé en production
+    serena:
+      status: "production_ready"
+      type: "stdio"
+      command: "npx"
+      args: ["serena"]
+
+    # ✅ Read-only, pas de risque
+    semgrep:
+      status: "production_ready"
+      type: "stdio"
+      command: "semgrep"
+      args: ["--version"]
+
+    # ✅ Documentation externe, stable
+    exa:
+      status: "production_ready"
+      type: "http"
+      command: "exa-mcp-server"
+
+  disabled_servers:
+    # ❌ Cipher: Ne fonctionne pas
+    cipher:
+      status: "disabled"
+      reason: "fallback_mode en production"
+      alternative: "Implémentation locale si besoin"
+
+# Templates v2.0 - Basés sur l'expérience
+templates_v2:
+  # Performance-first configurations
+  biome_config: "biome.json.j2"
+  test_impact_analysis: "test-impact-analysis.js.j2"
+
+  # Sécurité éprouvée
+  granular_permissions: "settings.local.json.j2"
+  advanced_precommit: "pre-commit-config-advanced.yaml.j2"
+
+  # MCP réaliste (sans Cipher)
+  mcp_config_realistic: "mcp-config-v2.json.j2"
+  hooks_config: "hooks-v2.json.j2"
+
+  # GitHub workflows enterprise
+  security_workflows: "github-workflows-security-v2.yml.j2"
+  performance_workflows: "github-workflows-performance.yml.j2"
+
+# Métriques de succès (validées terrain)
+success_metrics:
+  performance:
+    lint_time: "<5s"           # vs 45s ESLint
+    test_time: "<5min"         # vs 15min full suite
+    build_time: "<12min"       # vs 25min
+    dev_feedback: "<30s"       # vs 3-5min
+
+  quality:
+    coverage_lines: ">90%"
+    coverage_branches: ">70%"
+    vulnerabilities: 0
+    secrets_detected: 0
+
+  developer_experience:
+    setup_time: "<10min"
+    hot_reload: "<500ms"
+    pre_commit_time: "<30s"
+    ci_feedback: "<15min"
+
+# Roadmap v3.0 (futures investigations)
+roadmap_v3:
+  investigate:
+    - "Alternative à Cipher pour mémoire persistante"
+    - "Biome + TypeScript + React optimizations"
+    - "Test impact analysis multi-repo"
+    - "AI-powered pre-commit hooks"
+
+  never_again:
+    - "Cipher MCP (jusqu'à fix upstream)"
+    - "ESLint pour projets >1000 fichiers"
+    - "Tests complets à chaque commit"
+    - "Permissions génériques"

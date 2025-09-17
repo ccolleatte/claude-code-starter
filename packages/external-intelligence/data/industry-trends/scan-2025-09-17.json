@@ -1,0 +1,200 @@
+{
+  "scanId": "scan-2025-09-17",
+  "timestamp": "2025-09-17T06:17:40.383Z",
+  "sources": {
+    "github": {
+      "name": "GitHub Trending",
+      "enabled": true,
+      "frequency": "daily",
+      "relevanceWeight": 0.8,
+      "results": [
+        {
+          "name": "biome",
+          "fullName": "biomejs/biome",
+          "description": "A toolchain for web projects, aimed to provide functionalities to maintain them.",
+          "stars": 8234,
+          "language": "Rust",
+          "trending": "daily",
+          "relevanceScore": 0.9,
+          "relevanceReasons": [
+            "build tools",
+            "developer experience",
+            "performance"
+          ]
+        },
+        {
+          "name": "vitest",
+          "fullName": "vitest-dev/vitest",
+          "description": "A blazing fast unit test framework powered by Vite",
+          "stars": 11567,
+          "language": "TypeScript",
+          "trending": "weekly",
+          "relevanceScore": 0.85,
+          "relevanceReasons": [
+            "testing",
+            "performance",
+            "developer experience"
+          ]
+        },
+        {
+          "name": "turbo",
+          "fullName": "vercel/turbo",
+          "description": "Incremental bundler and build system optimized for JavaScript and TypeScript",
+          "stars": 24891,
+          "language": "Rust",
+          "trending": "monthly",
+          "relevanceScore": 0.95,
+          "relevanceReasons": [
+            "build tools",
+            "monorepo",
+            "performance",
+            "developer experience"
+          ]
+        }
+      ],
+      "scannedAt": "2025-09-17T06:17:40.383Z"
+    },
+    "hackernews": {
+      "name": "Hacker News",
+      "enabled": true,
+      "frequency": "daily",
+      "relevanceWeight": 0.7,
+      "results": [
+        {
+          "id": 39234567,
+          "title": "Bun 1.0 – A JavaScript runtime, bundler, transpiler and package manager",
+          "url": "https://bun.sh/blog/bun-v1.0",
+          "score": 742,
+          "comments": 234,
+          "author": "jarredsumner",
+          "relevanceScore": 0.9,
+          "relevanceReasons": [
+            "javascript",
+            "performance",
+            "tooling",
+            "developer experience"
+          ]
+        },
+        {
+          "id": 39234568,
+          "title": "Property-Based Testing in JavaScript with fast-check",
+          "url": "https://dev.to/property-testing-js",
+          "score": 156,
+          "comments": 45,
+          "author": "testingexpert",
+          "relevanceScore": 0.8,
+          "relevanceReasons": [
+            "testing",
+            "property-based",
+            "javascript"
+          ]
+        }
+      ],
+      "scannedAt": "2025-09-17T06:17:40.383Z"
+    }
+  },
+  "trends": [
+    {
+      "type": "concept",
+      "name": "performance",
+      "mentions": 4,
+      "confidence": 0.8,
+      "category": "performance",
+      "impact": 0.6000000000000001
+    },
+    {
+      "type": "concept",
+      "name": "developer experience",
+      "mentions": 4,
+      "confidence": 0.8,
+      "category": "devex",
+      "impact": 0.5599999999999999
+    },
+    {
+      "type": "technology",
+      "name": "javascript",
+      "mentions": 3,
+      "confidence": 1,
+      "category": "tooling",
+      "impact": 0.3
+    },
+    {
+      "type": "concept",
+      "name": "testing",
+      "mentions": 2,
+      "confidence": 0.4,
+      "category": "testing",
+      "impact": 0.26
+    },
+    {
+      "type": "concept",
+      "name": "build tools",
+      "mentions": 2,
+      "confidence": 0.4,
+      "category": "tooling",
+      "impact": 0.24
+    },
+    {
+      "type": "concept",
+      "name": "javascript",
+      "mentions": 2,
+      "confidence": 0.4,
+      "category": "other",
+      "impact": 0.2
+    },
+    {
+      "type": "technology",
+      "name": "bun",
+      "mentions": 2,
+      "confidence": 0.6666666666666666,
+      "category": "tooling",
+      "impact": 0.2
+    }
+  ],
+  "summary": {
+    "totalItems": 5,
+    "sourceBreakdown": {
+      "github": 3,
+      "hackernews": 2
+    },
+    "topTrends": [
+      {
+        "name": "performance",
+        "type": "concept",
+        "impact": 0.6000000000000001
+      },
+      {
+        "name": "developer experience",
+        "type": "concept",
+        "impact": 0.5599999999999999
+      },
+      {
+        "name": "javascript",
+        "type": "technology",
+        "impact": 0.3
+      },
+      {
+        "name": "bun",
+        "type": "technology",
+        "impact": 0.2
+      }
+    ],
+    "emergingTechnologies": [],
+    "actionableInsights": [
+      {
+        "category": "performance",
+        "insight": "Performance trend detected: performance. Consider audit of current approach",
+        "urgency": "high",
+        "effort": "medium"
+      }
+    ],
+    "recommendedFollowUps": [
+      {
+        "category": "tooling",
+        "action": "Deep dive into tooling trends",
+        "reasoning": "Multiple tooling trends detected (3 items)",
+        "priority": "medium"
+      }
+    ]
+  }
+}
