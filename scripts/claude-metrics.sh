@@ -1,8 +1,12 @@
 #!/bin/bash
-# Claude Metrics Collection Script v1.0
-# Tracks hallucinations, response times, template usage, and configuration errors
+# Claude Metrics Collection Script v1.1
+# Cross-platform version with Unicode safety for Windows
 
 set -e
+
+# Load safe output functions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/safe-output.sh"
 
 # Configuration
 METRICS_DIR="${CLAUDE_METRICS_DIR:-.claude/metrics}"
@@ -11,12 +15,12 @@ DAILY_REPORT="$METRICS_DIR/daily-$(date +%Y%m%d).json"
 ALERT_THRESHOLD_HALLUCINATIONS=${HALLUCINATION_THRESHOLD:-5}
 ALERT_THRESHOLD_RESPONSE_TIME=${RESPONSE_TIME_THRESHOLD:-10.0}
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+# Colors for output (will be converted to ASCII on Windows)
+RED='[0;31m'
+GREEN='[0;32m'
+YELLOW='[1;33m'
+BLUE='[0;34m'
+NC='[0m'
 
 # Ensure metrics directory exists
 mkdir -p "$METRICS_DIR"
@@ -38,7 +42,7 @@ track_hallucination() {
     
     log_metric "hallucination" "$severity" "$type:$context"
     
-    echo -e "${RED}🚨 Hallucination detected:${NC}"
+    safe_echo "Hallucination detected:" "error"
     echo "  Type: $type"
     echo "  Severity: $severity"
     echo "  Context: $context"
@@ -47,7 +51,7 @@ track_hallucination() {
     # Check daily threshold
     local today_count=$(grep "$(date +%Y-%m-%d)" "$METRICS_FILE" | grep "hallucination" | wc -l)
     if [ "$today_count" -ge "$ALERT_THRESHOLD_HALLUCINATIONS" ]; then
-        echo -e "${RED}⚠️ ALERT: Daily hallucination threshold exceeded ($today_count >= $ALERT_THRESHOLD_HALLUCINATIONS)${NC}"
+        safe_echo "ALERT: Daily hallucination threshold exceeded ($today_count >= $ALERT_THRESHOLD_HALLUCINATIONS)" "error"
         send_alert "hallucination_threshold" "$today_count"
     fi
 }
@@ -62,11 +66,11 @@ track_response_time() {
     
     log_metric "response_time" "$duration" "$operation"
     
-    echo -e "${BLUE}⏱️ Response time: ${duration}s for $operation${NC}"
+    safe_echo "Response time: ${duration}s for $operation" "info"
     
     # Check threshold
     if (( $(echo "$duration > $ALERT_THRESHOLD_RESPONSE_TIME" | bc -l) )); then
-        echo -e "${YELLOW}⚠️ Slow response detected: ${duration}s > ${ALERT_THRESHOLD_RESPONSE_TIME}s${NC}"
+        safe_echo "Slow response detected: ${duration}s > ${ALERT_THRESHOLD_RESPONSE_TIME}s" "warn"
         send_alert "slow_response" "$operation:${duration}s"
     fi
 }
@@ -80,9 +84,9 @@ track_template_usage() {
     log_metric "template_usage" "$success" "$template:$action"
     
     if [ "$success" = "true" ]; then
-        echo -e "${GREEN}✅ Template used: $template ($action)${NC}"
+        safe_echo "Template used: $template ($action)" "success"
     else
-        echo -e "${RED}❌ Template error: $template ($action)${NC}"
+        safe_echo "Template error: $template ($action)" "error"
     fi
 }
 
@@ -94,7 +98,7 @@ track_config_error() {
     
     log_metric "config_error" "$error_type" "$file:$message"
     
-    echo -e "${RED}🔧 Config error in $file:${NC}"
+    safe_echo "Config error in $file:" "error"
     echo "  Type: $error_type"
     echo "  Message: $message"
 }
@@ -103,7 +107,7 @@ track_config_error() {
 generate_daily_report() {
     local date_filter="${1:-$(date +%Y-%m-%d)}"
     
-    echo -e "${BLUE}📊 Generating daily report for $date_filter...${NC}"
+    safe_echo "Generating daily report for $date_filter..." "info"
     
     # Extract metrics for the day
     local day_metrics=$(grep "$date_filter" "$METRICS_FILE" 2>/dev/null || echo "")
@@ -149,7 +153,7 @@ generate_daily_report() {
 }
 EOF
     
-    echo -e "${GREEN}📋 Daily report saved to: $DAILY_REPORT${NC}"
+    safe_echo "Daily report saved to: $DAILY_REPORT" "success"
     cat "$DAILY_REPORT"
 }
 
@@ -173,7 +177,7 @@ send_alert() {
 dashboard_data() {
     local hours="${1:-24}"
     
-    echo -e "${BLUE}📊 Last $hours hours dashboard data:${NC}"
+    safe_echo "Last $hours hours dashboard data:" "info"
     
     # Get recent metrics
     local since_time=$(date -d "$hours hours ago" -Iseconds 2>/dev/null || date -v-${hours}H -Iseconds)
@@ -192,7 +196,7 @@ dashboard_data() {
 cleanup_old_metrics() {
     local keep_days="${1:-30}"
     
-    echo -e "${YELLOW}🧹 Cleaning metrics older than $keep_days days...${NC}"
+    safe_echo "Cleaning metrics older than $keep_days days..." "warn"
     
     # Archive old daily reports
     find "$METRICS_DIR" -name "daily-*.json" -mtime +$keep_days -exec mv {} "$METRICS_DIR/archive/" \; 2>/dev/null || true
@@ -201,7 +205,7 @@ cleanup_old_metrics() {
     local cutoff_date=$(date -d "$keep_days days ago" -Iseconds 2>/dev/null || date -v-${keep_days}d -Iseconds)
     awk -F'|' -v cutoff="$cutoff_date" '$1 >= cutoff' "$METRICS_FILE" > "$METRICS_FILE.tmp" && mv "$METRICS_FILE.tmp" "$METRICS_FILE"
     
-    echo -e "${GREEN}✅ Cleanup completed${NC}"
+    safe_echo "Cleanup completed" "success"
 }
 
 # 📖 Usage function

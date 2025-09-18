@@ -1,0 +1,146 @@
+{
+  "// 🔐 CLAUDE CODE SECURITY SETTINGS": "Template for secure permissions",
+  "// Copy to .claude/settings.local.json": "and customize for your project",
+
+  "permissions": {
+    "description": "Principle of least privilege - only essential permissions",
+
+    "allow": [
+      "// 🧠 MCP Core Operations": "Essential for Claude Code functionality",
+      "mcp__serena__get_current_config",
+      "mcp__serena__activate_project",
+      "mcp__serena__list_dir",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__read_file",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__list_memories",
+
+      "// 📝 Safe File Operations": "Read-only and controlled writes",
+      "mcp__serena__create_text_file",
+      "mcp__serena__replace_regex",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+
+      "// 🔍 Development Tools": "Essential for development workflow",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(chmod:*)",
+      "Bash(sha256sum:*)",
+
+      "// 📦 Package Management": "Controlled package operations",
+      "Bash(npm install:*)",
+      "Bash(npm search:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(pip install:*)",
+      "Bash(uv:*)",
+
+      "// 🧪 Testing & Validation": "Quality assurance commands",
+      "Bash(python -m pytest test_templates_syntax.py -v)",
+      "Bash(python -m pytest test_mcp_scripts.py -v)",
+      "Bash(python -m pytest test_integration.py -v)",
+      "Bash(test:*)",
+
+      "// 🔒 Security Scanning": "Security validation tools",
+      "Bash(semgrep:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm run validate:security:*)",
+      "Bash(npm run check:env:*)",
+
+      "// 📡 Safe Web Access": "Controlled external access",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+
+      "// 🎯 Git Operations": "Version control essentials",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+
+      "// 🔧 Environment Setup": "Controlled environment operations",
+      "Bash(source .env)",
+      "mcp__serena__execute_shell_command"
+    ],
+
+    "deny": [
+      "// 🚨 DANGEROUS OPERATIONS": "Explicitly forbidden for security",
+      "Bash(rm -rf *)",
+      "Bash(sudo:*)",
+      "Bash(su:*)",
+      "Bash(chmod 777:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(ssh:*)",
+      "Bash(scp:*)",
+      "Bash(rsync:*)",
+
+      "// 💾 System Modification": "Prevent system-level changes",
+      "Bash(systemctl:*)",
+      "Bash(service:*)",
+      "Bash(mount:*)",
+      "Bash(umount:*)",
+      "Bash(fdisk:*)",
+
+      "// 🌐 Unrestricted Network": "Block dangerous network operations",
+      "Bash(nc:*)",
+      "Bash(netcat:*)",
+      "Bash(nmap:*)",
+      "WebFetch(domain:*)",
+
+      "// 📦 Global Package Changes": "Prevent system package modifications",
+      "Bash(apt:*)",
+      "Bash(yum:*)",
+      "Bash(brew:*)",
+      "Bash(pip install --global:*)"
+    ],
+
+    "ask": [
+      "// ⚠️ REQUIRES CONFIRMATION": "Operations that need user approval",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(npm publish:*)",
+      "Bash(docker:*)",
+      "mcp__serena__write_memory",
+
+      "// 🗑️ Destructive Operations": "File deletion requires confirmation",
+      "Bash(rm:*)",
+      "mcp__serena__delete_memory",
+
+      "// 🔧 System Configuration": "Configuration changes need approval",
+      "Bash(git config:*)",
+      "Bash(npm config:*)"
+    ]
+  },
+
+  "security": {
+    "description": "Additional security settings",
+
+    "max_file_size": "10MB",
+    "allowed_file_types": [".md", ".json", ".py", ".js", ".sh", ".yml", ".yaml"],
+    "blocked_patterns": [
+      "sk-ant-api03-*",
+      "sk-*",
+      "password=*",
+      "secret=*",
+      "token=*"
+    ],
+
+    "audit_logging": true,
+    "session_timeout": "30m",
+    "require_confirmation_for_writes": true
+  },
+
+  "// 🎯 CUSTOMIZATION GUIDE": {
+    "development": "Add: Bash(npm run dev:*), Bash(docker-compose:*)",
+    "testing": "Add: Bash(jest:*), Bash(cypress:*)",
+    "deployment": "Add: Bash(git push:*) to allow list",
+    "debugging": "Add: Bash(strace:*), Bash(lsof:*) temporarily",
+
+    "// WARNING": "Never add Bash(*) or unrestricted permissions",
+    "// SECURITY": "Always follow principle of least privilege",
+    "// REVIEW": "Audit permissions monthly"
+  }
+}

@@ -12,6 +12,8 @@
 *.backup
 *.backup-*
 .claude.json.backup-*
+*.key
+*.pem
 
 # MCP Server logs
 *.log

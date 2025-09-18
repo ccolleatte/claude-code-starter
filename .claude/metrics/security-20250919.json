@@ -1,0 +1,22 @@
+{
+    "timestamp": "2025-09-18T23:55:54Z",
+    "scan_duration_ms": 2000,
+    "security_score": 100,
+    "findings": {
+        "secrets_exposed": 0,
+        "vulnerabilities": 0,
+        "integrity_issues": 0,
+        "process_issues": 0
+    },
+    "thresholds": {
+        "alert_threshold": 3,
+        "score_warning": 70,
+        "score_critical": 50
+    },
+    "recommendations": [
+        
+        
+        
+        
+    ]
+}
