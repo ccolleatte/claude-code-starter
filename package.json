@@ -17,6 +17,9 @@
     "benchmark": "python -c \"import time,os; start=time.time(); [open(f).read() for f in ['.claude/CLAUDE.md','.claude/CLAUDE-WORKFLOWS.md'] if os.path.exists(f)]; print(f'Config load: {time.time()-start:.3f}s')\"",
     "mcp:test": "bash .claude/scripts/serena-mcp.sh --validate && bash .claude/scripts/cipher-mcp.sh --validate",
     "docs:serve": "echo 'Serving docs - open docs/claude/ for guides'",
+    "backlog:status": "python .product-review/scripts/backlog-manager.py --action status",
+    "backlog:update": "python .product-review/scripts/backlog-manager.py --action update",
+    "backlog:extract": "python .product-review/scripts/backlog-manager.py --action extract",
     "ci:local": "npm run validate && npm run test:all",
     "format": "echo 'Formatting - add prettier/black when needed'",
     "lint": "echo 'Linting - add eslint/ruff when needed'"

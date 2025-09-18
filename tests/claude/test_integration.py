@@ -169,7 +169,7 @@ class TestClaudeIntegration:
             
             # Pattern simple pour détecter les clés exposées précédentes
             old_exposed_patterns = [
-                "sk-ant-api03-Ny1E3hG",  # Ancienne clé exposée
+                "sk-ant-api03-REDACTED-EXPOSED-KEY",  # Ancienne clé exposée
                 "2a89fc42-2a13-4a06-b529-ceda509988ed"  # Ancienne clé Exa
             ]
             
