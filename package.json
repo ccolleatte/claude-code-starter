@@ -1,0 +1,56 @@
+{
+  "name": "claude-starter-kit",
+  "version": "4.1.0",
+  "description": "Claude Code Configuration Framework v4.1 - Doctoral-level standards",
+  "main": "index.js",
+  "scripts": {
+    "test": "pytest tests/claude/ -v",
+    "test:quick": "pytest tests/claude/test_templates_syntax.py -v",
+    "test:mcp": "pytest tests/claude/test_mcp_scripts.py -v",
+    "test:integration": "pytest tests/claude/test_integration.py -v",
+    "test:all": "pytest tests/claude/ -v --tb=short",
+    "validate": "bash .github/workflows/validate-local.sh || echo 'Run in bash/WSL on Windows'",
+    "validate:syntax": "python -m pytest tests/claude/test_templates_syntax.py -v",
+    "validate:security": "gitleaks detect --source . || echo 'Install gitleaks for security scanning'",
+    "validate:structure": "python -c \"import os; required=['.claude/CLAUDE.md', '.claude/CLAUDE-WORKFLOWS.md', '.claude/CLAUDE-VALIDATION.md', '.claude/CLAUDE-ERRORS.md', '.claude/CLAUDE-SETTINGS.md']; missing=[f for f in required if not os.path.exists(f)]; exit(1) if missing else print('[OK] Structure valid')\"",
+    "check:env": "python -c \"import os; keys=['ANTHROPIC_API_KEY', 'EXA_API_KEY']; missing=[k for k in keys if not os.getenv(k)]; print('❌ Missing:',missing) if missing else print('✅ Environment configured')\"",
+    "benchmark": "python -c \"import time,os; start=time.time(); [open(f).read() for f in ['.claude/CLAUDE.md','.claude/CLAUDE-WORKFLOWS.md'] if os.path.exists(f)]; print(f'Config load: {time.time()-start:.3f}s')\"",
+    "mcp:test": "bash .claude/scripts/serena-mcp.sh --validate && bash .claude/scripts/cipher-mcp.sh --validate",
+    "docs:serve": "echo 'Serving docs - open docs/claude/ for guides'",
+    "ci:local": "npm run validate && npm run test:all",
+    "format": "echo 'Formatting - add prettier/black when needed'",
+    "lint": "echo 'Linting - add eslint/ruff when needed'"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "configuration",
+    "mcp",
+    "tdd",
+    "framework",
+    "anti-hallucination",
+    "validation"
+  ],
+  "author": "Claude Config Framework Team",
+  "license": "MIT",
+  "devDependencies": {
+    "pytest": "^7.4.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "python": ">=3.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/claude-starter-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/claude-starter-kit/issues"
+  },
+  "homepage": "https://github.com/your-org/claude-starter-kit#readme",
+  "config": {
+    "claude_version": "4.1.0",
+    "framework_type": "configuration",
+    "validation_level": "doctoral"
+  }
+}

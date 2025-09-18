@@ -1,0 +1,60 @@
+# Environment Variables - NEVER commit real API keys
+.env
+.env.local
+.env.production
+
+# Claude Configuration - Sensitive files
+.claude/settings.local.json
+.claude/.cache/
+.claude/tmp/
+
+# Backup files with potential secrets
+*.backup
+*.backup-*
+.claude.json.backup-*
+
+# MCP Server logs
+*.log
+cipher.log
+serena.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Node modules if any
+node_modules/
+npm-debug.log*
+
+# Python cache if any  
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Product Review & Strategic Planning - PRIVATE
+.product-review/
+.roadmap/
+.competitive-analysis/
+
+# IP Protection - Proprietary Elements
+/.serena/memories/*.md
+/.cipher/
+/docs/claude/INTERNAL-*
+/scripts/proprietary-*
+/benchmarks/internal-*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
