@@ -25,8 +25,8 @@ def test_badges_preserved():
     assert "[![Test Coverage]" in content, "Badge coverage manquant"
     assert "[![Security Score]" in content, "Badge sécurité manquant"
     
-    # Vérifier liens badges fonctionnels
-    assert "https://github.com/your-org/claude-starter-kit" in content
+    # Vérifier liens badges fonctionnels (URL mise à jour)
+    assert "https://github.com/ccolleatte/claude-code-starter" in content
     assert "https://img.shields.io/badge/" in content
 
 def test_code_blocks_preserved():
@@ -58,17 +58,17 @@ def test_french_translations():
     fr_file = Path("README-FR.md")
     content = fr_file.read_text(encoding='utf-8')
     
-    # Traductions obligatoires
+    # Traductions obligatoires (typographie française corrigée, ton marketing supprimé)
     french_terms = {
-        "Démarrage Rapide": "Quick Start",
-        "Structure du Framework": "Framework Structure",
-        "Règles Critiques": "Critical Rules",
-        "Commandes Essentielles": "Key Commands",
-        "Stratégie de Test": "Testing Strategy",
-        "Métriques de Performance": "Performance Metrics",
+        "Démarrage rapide": "Quick Start",  # Typographie française corrigée
+        "Structure du framework": "Framework Structure",  # Typographie française corrigée
+        "Règles critiques": "Critical Rules",  # Typographie française corrigée
+        "Commandes essentielles": "Key Commands",  # Typographie française corrigée
+        "Stratégie de test": "Testing Strategy",  # Typographie française corrigée
+        "Métriques de performance": "Performance Metrics",  # Typographie française corrigée
         "Contribuer": "Contributing",
-        "niveau doctoral": "doctoral",
-        "Standards Doctoraux": "Doctoral Standards"
+        "expérimental": "experimental",  # Nouvelle approche honnête
+        "communautaire": "community"  # Nouvelle approche honnête
     }
     
     for french_term, english_context in french_terms.items():
@@ -115,13 +115,13 @@ def test_marketing_tone_preserved():
     fr_file = Path("README-FR.md")
     content = fr_file.read_text(encoding='utf-8')
     
-    # Vérifier phrases d'accroche marketing
+    # Vérifier phrases d'accroche réalistes (ton marketing excessif supprimé)
     marketing_indicators = [
-        "Framework de Configuration Claude Code de Niveau Doctoral",
+        "Framework de Configuration Claude Code",  # Sans "Niveau Doctoral"
         "Anti-hallucination",
         "Architecture Modulaire",
         "Surveillance Temps Réel",
-        "standards de configuration IA de niveau doctoral",
+        "expérimental",  # Nouveau ton honnête
         "⭐"  # Emoji étoile pour call-to-action
     ]
     

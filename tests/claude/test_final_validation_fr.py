@@ -142,9 +142,9 @@ def test_readability_french():
         found_french = sum(1 for indicator in french_indicators if indicator in content.lower())
         assert found_french >= 5, f"{name}: Pas assez d'indicateurs français ({found_french})"
         
-        # Vérifier style professionnel
+        # Vérifier style professionnel (mise à jour après suppression ton marketing excessif)
         if name == "README-FR.md":
-            assert "niveau doctoral" in content.lower(), f"{name}: Ton marketing manquant"
+            assert "claude code" in content.lower(), f"{name}: Référence Claude Code manquante"
     
     print("OK - Lisibilité Français OK")
 

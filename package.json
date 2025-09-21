@@ -40,7 +40,7 @@
     "validate:syntax": "python -m pytest tests/claude/test_templates_syntax.py -v",
     "validate:security": "gitleaks detect --source . || echo 'Install gitleaks for security scanning'",
     "validate:structure": "python -c \"import os; required=['.claude/CLAUDE.md', '.claude/CLAUDE-WORKFLOWS.md', '.claude/CLAUDE-VALIDATION.md', '.claude/CLAUDE-ERRORS.md', '.claude/CLAUDE-SETTINGS.md']; missing=[f for f in required if not os.path.exists(f)]; exit(1) if missing else print('[OK] Structure valid')\"",
-    "check:env": "python -c \"import os; keys=['ANTHROPIC_API_KEY', 'EXA_API_KEY']; missing=[k for k in keys if not os.getenv(k)]; print('❌ Missing:',missing) if missing else print('✅ Environment configured')\"",
+    "check:env": "python -c \"import os; keys=['ANTHROPIC_API_KEY', 'EXA_API_KEY']; missing=[k for k in keys if not os.getenv(k)]; print('Missing:',missing) if missing else print('Environment configured')\"",
     "benchmark": "python -c \"import time,os; start=time.time(); [open(f).read() for f in ['.claude/CLAUDE.md','.claude/CLAUDE-WORKFLOWS.md'] if os.path.exists(f)]; print(f'Config load: {time.time()-start:.3f}s')\"",
     "mcp:test": "bash .claude/scripts/serena-mcp.sh --validate && bash .claude/scripts/cipher-mcp.sh --validate",
     "docs:serve": "echo 'Serving docs - open docs/claude/ for guides'",

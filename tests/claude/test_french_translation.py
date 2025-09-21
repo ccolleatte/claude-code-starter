@@ -54,12 +54,12 @@ def test_french_terminology():
     fr_file = Path(".claude/CLAUDE-FR.md")
     content = fr_file.read_text(encoding='utf-8')
     
-    # Vérifications positives - ces termes DOIVENT être présents
+    # Vérifications positives - ces termes DOIVENT être présents (typographie française corrigée)
     french_terms = [
         "JAMAIS créer sans analyser",
-        "TOUJOURS prouver par exécution", 
+        "TOUJOURS prouver par exécution",
         "arrêt immédiat",
-        "Conditions d'Arrêt",
+        "Conditions d'arrêt",  # Typographie française corrigée
         "Flux TDD",
         "Points de contrôle"
     ]

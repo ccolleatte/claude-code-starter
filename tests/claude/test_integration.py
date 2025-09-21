@@ -44,7 +44,7 @@ class TestClaudeIntegration:
         settings_file = Path(".claude/settings.local.json")
         
         if settings_file.exists():
-            with open(settings_file, 'r') as f:
+            with open(settings_file, 'r', encoding='utf-8') as f:
                 settings = json.load(f)
             
             # Vérifier structure permissions
@@ -133,8 +133,8 @@ class TestClaudeIntegration:
         
         required_docs = [
             "PROMPT-TEMPLATES.md",
-            "INTEGRATION-PERMISSIONS.md", 
-            "MIGRATION-GUIDE.md"
+            "INTEGRATION-PERMISSIONS.md"
+            # "MIGRATION-GUIDE.md" supprimé lors du nettoyage
         ]
         
         for doc in required_docs:
@@ -156,10 +156,10 @@ class TestClaudeIntegration:
         assert len(backup_files) > 0, \
             "Au moins un backup CLAUDE.md doit exister"
         
-        # Vérifier rapport de sécurité
-        security_setup = Path("SECURITY-SETUP.md")
-        assert security_setup.exists(), \
-            "Documentation sécurité SECURITY-SETUP.md doit exister"
+        # Vérifier documentation sécurité (nouveau emplacement)
+        security_docs = Path("docs/SECURITY-MONITORING.md")
+        assert security_docs.exists(), \
+            "Documentation sécurité docs/SECURITY-MONITORING.md doit exister"
         
         # Vérifier que .env ne contient pas de vraies clés en dur
         env_file = Path(".env")
