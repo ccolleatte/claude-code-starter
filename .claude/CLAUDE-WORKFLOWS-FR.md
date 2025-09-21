@@ -2,7 +2,7 @@
 
 Guide opérationnel complet pour le Framework de Configuration Claude Code.
 
-## 🔧 Configuration Initiale
+## 🔧 Configuration initiale
 
 ### Pré-requis
 - Node.js ≥16.0.0
@@ -10,11 +10,11 @@ Guide opérationnel complet pour le Framework de Configuration Claude Code.
 - Git configuré
 - Éditeur avec support Markdown
 
-### Configuration Rapide
+### Configuration rapide
 ```bash
 # 1. Cloner le framework
-git clone https://github.com/your-org/claude-starter-kit.git
-cd claude-starter-kit
+git clone https://github.com/ccolleatte/claude-code-starter.git
+cd claude-code-starter
 
 # 2. Configuration environnement
 cp .env.example .env
@@ -29,7 +29,7 @@ bash .claude/scripts/serena-mcp.sh --validate
 bash .claude/scripts/cipher-mcp.sh --validate
 ```
 
-### Structure Workspace
+### Structure workspace
 ```
 project/
 ├── .claude/          # Config Claude v4.1
@@ -39,9 +39,9 @@ project/
 └── src/             # Code source
 ```
 
-## 🎯 Flux de Travail TDD Strict
+## 🎯 Flux de travail TDD strict
 
-### Cycle Rouge-Vert-Refactorisation
+### Cycle rouge-vert-refactorisation
 
 #### 1. ROUGE - Écrire Test Qui Échoue
 ```bash
@@ -81,15 +81,15 @@ npm test:all
 # ✅ Tests: X passed, X total
 ```
 
-### Règles TDD Strictes
+### Règles TDD strictes
 1. **Jamais de code sans test qui échoue d'abord**
 2. **Code minimal juste pour passer le test**
 3. **Refactoriser seulement quand tout est vert**
 4. **1 échec = ARRÊT et corriger immédiatement**
 
-## 🔄 Flux de Travail Git Standard
+## 🔄 Flux de travail Git standard
 
-### Branches et Conventions
+### Branches et conventions
 ```bash
 # Création branche feature
 git checkout -b feature/add-user-authentication
@@ -104,7 +104,7 @@ git commit -m "test: add unit tests for auth service"
 git commit -m "docs: update API documentation"
 ```
 
-### Flux de Travail Complet
+### Flux de travail complet
 ```bash
 # 1. Synchroniser avec main
 git checkout main

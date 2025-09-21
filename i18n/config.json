@@ -1,0 +1,36 @@
+{
+  "defaultLocale": "en",
+  "supportedLocales": ["en", "fr"],
+  "fallbackLocale": "en",
+  "autoDetect": true,
+  "localeDetection": {
+    "sources": ["env", "system", "user"],
+    "envVars": ["LANG", "LANGUAGE", "LC_ALL", "CLAUDE_LOCALE"],
+    "systemDefault": "en"
+  },
+  "files": {
+    "security": {
+      "architecture": "security/architecture-defensive",
+      "monitoring": "security/monitoring-guide",
+      "intervention": "security/intervention-report"
+    },
+    "templates": {
+      "readme": "templates/security-readme",
+      "setup": "templates/setup-messages",
+      "wizard": "templates/wizard-prompts"
+    },
+    "scripts": {
+      "monitor": "scripts/security-monitor",
+      "setup": "scripts/setup-wizard",
+      "common": "scripts/common-messages"
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-09-19",
+    "translators": {
+      "en": "Claude Code Assistant",
+      "fr": "Claude Code Assistant"
+    }
+  }
+}

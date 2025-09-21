@@ -11,7 +11,7 @@ Voir aussi : CLAUDE-WORKFLOWS-FR.md | CLAUDE-VALIDATION-FR.md | CLAUDE-ERRORS-FR
 4. **Noms de fonctions stricts** : `calculate_elo_delta()` PAS d'autres variantes
 5. **Tests avant code** : RED → GREEN → REFACTOR sans exception
 
-## 🛑 Conditions d'Arrêt Automatiques
+## 🛑 Conditions d'arrêt automatiques
 
 ```markdown
 - Test échoue 3x consécutives → STOP et demander de l'aide
@@ -20,7 +20,7 @@ Voir aussi : CLAUDE-WORKFLOWS-FR.md | CLAUDE-VALIDATION-FR.md | CLAUDE-ERRORS-FR
 - Incertitude sur approche → CLARIFIER avant action
 ```
 
-## ⚡ Commandes Essentielles
+## ⚡ Commandes essentielles
 
 ```bash
 # Tests (TOUJOURS après modification)

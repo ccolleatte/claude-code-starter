@@ -9,8 +9,74 @@ const path = require('path');
 const readline = require('readline');
 const https = require('https');
 
+// i18n support
+class I18n {
+    constructor() {
+        this.locale = this.detectLocale();
+        this.messages = this.loadMessages();
+    }
+
+    detectLocale() {
+        const envLocale = process.env.CLAUDE_LOCALE || 
+                         process.env.LANG || 
+                         process.env.LANGUAGE || 
+                         process.env.LC_ALL;
+        
+        if (envLocale) {
+            const locale = envLocale.split('.')[0].split('_')[0];
+            if (['en', 'fr'].includes(locale)) {
+                return locale;
+            }
+        }
+        return 'en';
+    }
+
+    loadMessages() {
+        try {
+            const messagesPath = path.join(__dirname, '..', 'i18n', this.locale, 'messages.json');
+            return JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
+        } catch (error) {
+            // Fallback to English
+            try {
+                const fallbackPath = path.join(__dirname, '..', 'i18n', 'en', 'messages.json');
+                return JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+            } catch (fallbackError) {
+                return {}; // Empty messages if both fail
+            }
+        }
+    }
+
+    get(key, ...params) {
+        const keys = key.split('.');
+        let value = this.messages;
+        
+        for (const k of keys) {
+            if (value && typeof value === 'object') {
+                value = value[k];
+            } else {
+                return `[Missing: ${key}]`;
+            }
+        }
+        
+        if (typeof value !== 'string') {
+            return `[Invalid: ${key}]`;
+        }
+        
+        // Replace placeholders
+        params.forEach((param, index) => {
+            value = value.replace(`{${index}}`, param);
+            value = value.replace(new RegExp(`\{${Object.keys({
+                service: 0, error: 1, url: 2
+            })[index] || index}\}`, 'g'), param);
+        });
+        
+        return value;
+    }
+}
+
 class SetupWizard {
     constructor() {
+        this.i18n = new I18n();
         this.rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -44,9 +110,36 @@ class SetupWizard {
         ];
     }
 
+    // Localized prompt
+    async prompt(message) {
+        return new Promise((resolve) => {
+            this.rl.question(message + ' ', resolve);
+        });
+    }
+
+    // Localized console output
+    log(key, level = 'info', ...params) {
+        const message = this.i18n.get(key, ...params);
+        switch (level) {
+            case 'error':
+                console.error(`❌ ${message}`);
+                break;
+            case 'success':
+                console.log(`✅ ${message}`);
+                break;
+            case 'warn':
+                console.warn(`⚠️  ${message}`);
+                break;
+            default:
+                console.log(message);
+        }
+    }
+
     async start() {
-        console.log('🚀 Claude Starter Kit - Setup Wizard');
-        console.log('====================================\\n');
+        console.log(this.i18n.get('setup.title'));
+        console.log('====================================\n');
+        console.log(this.i18n.get('setup.welcome'));
+        console.log(this.i18n.get('setup.description') + '\n');
         
         try {
             await this.copyEnvExample();
@@ -54,7 +147,7 @@ class SetupWizard {
             await this.testConnectivity();
             await this.showNextSteps();
         } catch (error) {
-            console.error('❌ Setup failed:', error.message);
+            this.log('setup.setupFailed', 'error', error.message);
             process.exit(1);
         } finally {
             this.rl.close();
@@ -71,20 +164,20 @@ class SetupWizard {
         if (fs.existsSync(this.envPath)) {
             const answer = await this.question(`⚠️  .env already exists. Overwrite? (y/N): `);
             if (answer.toLowerCase() !== 'y') {
-                console.log('✅ Using existing .env file\\n');
+                console.log('✅ Using existing .env file\n');
                 this.loadExistingEnv();
                 return;
             }
         }
 
         fs.copyFileSync(this.envExamplePath, this.envPath);
-        console.log('✅ Copied .env.example to .env\\n');
+        console.log('✅ Copied .env.example to .env\n');
     }
 
     loadExistingEnv() {
         try {
             const envContent = fs.readFileSync(this.envPath, 'utf8');
-            const lines = envContent.split('\\n');
+            const lines = envContent.split('\n');
             
             lines.forEach(line => {
                 const match = line.match(/^([A-Z_]+)=(.*)$/);
@@ -99,7 +192,7 @@ class SetupWizard {
 
     async collectApiKeys() {
         console.log('🔑 Step 2: API Keys Configuration');
-        console.log('Please provide your API keys (paste and press Enter):\\n');
+        console.log('Please provide your API keys (paste and press Enter):\n');
 
         for (const keyInfo of this.requiredKeys) {
             await this.collectSingleKey(keyInfo);
@@ -125,24 +218,24 @@ class SetupWizard {
             
             // Skip if optional and empty
             if (keyInfo.optional && !value.trim()) {
-                console.log('   ⏭️  Skipped (optional)\\n');
+                console.log('   ⏭️  Skipped (optional)\n');
                 break;
             }
 
             // Keep existing if just pressed Enter
             if (!value.trim() && existing) {
-                console.log('   ✅ Keeping existing value\\n');
+                console.log('   ✅ Keeping existing value\n');
                 break;
             }
 
             // Validate format
             if (this.validateKeyFormat(value, keyInfo.format)) {
                 this.config[keyInfo.key] = value.trim();
-                console.log('   ✅ Valid format\\n');
+                console.log('   ✅ Valid format\n');
                 break;
             } else {
                 console.log(`   ❌ Invalid format. Expected pattern: ${keyInfo.format}`);
-                console.log(`   💡 Get your key at: ${keyInfo.helpUrl}\\n`);
+                console.log(`   💡 Get your key at: ${keyInfo.helpUrl}\n`);
                 
                 if (keyInfo.optional) {
                     const skip = await this.question('   Skip this optional key? (y/N): ');
@@ -169,7 +262,7 @@ class SetupWizard {
             }
 
             fs.writeFileSync(this.envPath, envContent);
-            console.log('✅ Configuration saved to .env\\n');
+            console.log('✅ Configuration saved to .env\n');
         } catch (error) {
             throw new Error(`Failed to save .env: ${error.message}`);
         }
@@ -233,7 +326,7 @@ class SetupWizard {
 
     async showNextSteps() {
         console.log('🎉 Setup Complete!');
-        console.log('=================\\n');
+        console.log('=================\n');
         
         console.log('📋 Next Steps:');
         console.log('1. Verify your configuration:');
@@ -256,9 +349,9 @@ class SetupWizard {
             console.log('🔍 Exa Search configured - Web research enabled!');
         }
         
-        console.log('\\n📚 Documentation: README.md');
+        console.log('\n📚 Documentation: README.md');
         console.log('🆘 Support: See .claude/CLAUDE-VALIDATION.md for troubleshooting');
-        console.log('\\n✨ Happy coding with Claude Starter Kit! ✨');
+        console.log('\n✨ Happy coding with Claude Starter Kit! ✨');
     }
 
     question(prompt) {

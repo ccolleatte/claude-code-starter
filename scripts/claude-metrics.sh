@@ -4,11 +4,40 @@
 
 set -e
 
-# Load safe output functions
+# Load safe output functions and i18n
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/safe-output.sh"
+source "$SCRIPT_DIR/i18n-helper.sh"
 
 # Configuration
+DEBUG_MODE=${DEBUG_MODE:-false}
+
+# Debug output helper function
+debug_log() {
+    if [[ $DEBUG_MODE == 'true' ]]; then
+        safe_echo "🐛 DEBUG: $1" "info"
+    fi
+}
+
+# Security validation for debug mode
+validate_debug_environment() {
+    if [[ $DEBUG_MODE == 'true' ]]; then
+        # Warn about debug mode activation
+        safe_echo "⚠️  DEBUG MODE ACTIVATED - Sensitive operations will be logged" "warn"
+        safe_echo "   Only use debug mode in secure development environments" "warn"
+        
+        # Check if we're in a potentially unsafe environment
+        if [[ -n "${CI:-}" ]] || [[ -n "${GITHUB_ACTIONS:-}" ]] || [[ -n "${GITLAB_CI:-}" ]]; then
+            safe_echo "[ALERT] WARNING: Debug mode detected in CI/CD environment!" "error"
+            safe_echo "   This may expose sensitive information in logs" "error"
+            safe_echo "   Set DEBUG_MODE=false for production pipelines" "error"
+        fi
+        
+        # Log debug session start
+        debug_log "Debug session started at $(date) by user: ${USER:-unknown}"
+        debug_log "Environment: PWD=$PWD, SHELL=$SHELL"
+    fi
+}
 METRICS_DIR="${CLAUDE_METRICS_DIR:-.claude/metrics}"
 METRICS_FILE="$METRICS_DIR/claude-metrics.log"
 DAILY_REPORT="$METRICS_DIR/daily-$(date +%Y%m%d).json"
@@ -25,11 +54,21 @@ NC='[0m'
 # Ensure metrics directory exists
 mkdir -p "$METRICS_DIR"
 
+# Validate debug environment
+validate_debug_environment
+
 log_metric() {
     local timestamp=$(date -Iseconds)
     local metric_type="$1"
     local value="$2"
     local context="$3"
+    
+    debug_log "Logging metric - Type: $metric_type, Value: $value, Context: $context"
+    
+    # Security: Only log to file if not in debug mode or if explicitly safe
+    if [[ $DEBUG_MODE == 'true' ]]; then
+        debug_log "SENSITIVE: Writing to metrics file: $METRICS_FILE"
+    fi
     
     echo "$timestamp|$metric_type|$value|$context" >> "$METRICS_FILE"
 }
@@ -40,18 +79,26 @@ track_hallucination() {
     local severity="${2:-medium}"
     local context="${3:-}"
     
+    debug_log "Processing hallucination - Type: $type, Severity: $severity"
+    
+    # Security: Sanitize context in production mode
+    if [[ $DEBUG_MODE != 'true' ]]; then
+        context=$(echo "$context" | sed 's/[^a-zA-Z0-9 ._-]//g' | cut -c1-100)
+        debug_log "Sanitized context for production: $context"
+    fi
+    
     log_metric "hallucination" "$severity" "$type:$context"
     
-    safe_echo "Hallucination detected:" "error"
-    echo "  Type: $type"
-    echo "  Severity: $severity"
-    echo "  Context: $context"
+    localized_echo "metrics.hallucination.detected" "error"
+    echo "  $(get_message "metrics.hallucination.type" "$type")"
+    echo "  $(get_message "metrics.hallucination.severity" "$severity")"
+    echo "  $(get_message "metrics.hallucination.context" "$context")"
     echo "  Time: $(date)"
     
     # Check daily threshold
     local today_count=$(grep "$(date +%Y-%m-%d)" "$METRICS_FILE" | grep "hallucination" | wc -l)
     if [ "$today_count" -ge "$ALERT_THRESHOLD_HALLUCINATIONS" ]; then
-        safe_echo "ALERT: Daily hallucination threshold exceeded ($today_count >= $ALERT_THRESHOLD_HALLUCINATIONS)" "error"
+        localized_echo "metrics.hallucination.threshold" "error" "$today_count" "$ALERT_THRESHOLD_HALLUCINATIONS"
         send_alert "hallucination_threshold" "$today_count"
     fi
 }
@@ -64,13 +111,20 @@ track_response_time() {
     
     local duration=$(echo "$end_time - $start_time" | bc -l 2>/dev/null || echo "0")
     
+    debug_log "Calculating response time - Operation: $operation, Duration: ${duration}s"
+    
+    # Security: Sanitize operation name in production
+    if [[ $DEBUG_MODE != 'true' ]]; then
+        operation=$(echo "$operation" | sed 's/[^a-zA-Z0-9_-]//g' | cut -c1-50)
+    fi
+    
     log_metric "response_time" "$duration" "$operation"
     
-    safe_echo "Response time: ${duration}s for $operation" "info"
+    localized_echo "metrics.responseTime.measured" "info" "$duration" "$operation"
     
     # Check threshold
     if (( $(echo "$duration > $ALERT_THRESHOLD_RESPONSE_TIME" | bc -l) )); then
-        safe_echo "Slow response detected: ${duration}s > ${ALERT_THRESHOLD_RESPONSE_TIME}s" "warn"
+        localized_echo "metrics.responseTime.slow" "warn" "$duration" "$ALERT_THRESHOLD_RESPONSE_TIME"
         send_alert "slow_response" "$operation:${duration}s"
     fi
 }
@@ -84,9 +138,9 @@ track_template_usage() {
     log_metric "template_usage" "$success" "$template:$action"
     
     if [ "$success" = "true" ]; then
-        safe_echo "Template used: $template ($action)" "success"
+        localized_echo "metrics.template.used" "success" "$template" "$action"
     else
-        safe_echo "Template error: $template ($action)" "error"
+        localized_echo "metrics.template.error" "error" "$template" "$action"
     fi
 }
 
@@ -107,10 +161,22 @@ track_config_error() {
 generate_daily_report() {
     local date_filter="${1:-$(date +%Y-%m-%d)}"
     
-    safe_echo "Generating daily report for $date_filter..." "info"
+    debug_log "Starting daily report generation for $date_filter"
+    debug_log "Metrics file: $METRICS_FILE"
+    
+    # Security: Validate date format to prevent injection
+    if ! [[ "$date_filter" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+        safe_echo "ERROR: Invalid date format. Use YYYY-MM-DD" "error"
+        return 1
+    fi
+    
+    localized_echo "metrics.generatingReport" "info"
     
     # Extract metrics for the day
     local day_metrics=$(grep "$date_filter" "$METRICS_FILE" 2>/dev/null || echo "")
+    
+    local metrics_count=$(echo "$day_metrics" | wc -l)
+    debug_log "Found $metrics_count metrics for $date_filter"
     
     # Count by type
     local hallucinations=$(echo "$day_metrics" | grep "hallucination" | wc -l)
@@ -153,7 +219,7 @@ generate_daily_report() {
 }
 EOF
     
-    safe_echo "Daily report saved to: $DAILY_REPORT" "success"
+    localized_echo "metrics.reportGenerated" "success" "$DAILY_REPORT"
     cat "$DAILY_REPORT"
 }
 
@@ -162,6 +228,14 @@ send_alert() {
     local alert_type="$1"
     local details="$2"
     
+    debug_log "Sending alert - Type: $alert_type, Details: $details"
+    
+    # Security: In production mode, sanitize alert details
+    if [[ $DEBUG_MODE != 'true' ]]; then
+        details=$(echo "$details" | sed 's/[^a-zA-Z0-9 ._:-]//g' | cut -c1-200)
+        debug_log "Sanitized alert details for production"
+    fi
+    
     local alert_file="$METRICS_DIR/alerts.log"
     local timestamp=$(date -Iseconds)
     
@@ -169,6 +243,9 @@ send_alert() {
     
     # Hook for external alerting (webhook, email, etc.)
     if [ -f ".claude/hooks/alert.sh" ]; then
+        if [[ $DEBUG_MODE == 'true' ]]; then
+            debug_log "SENSITIVE: Executing external alert hook with sanitized data"
+        fi
         bash ".claude/hooks/alert.sh" "$alert_type" "$details" "$timestamp"
     fi
 }
@@ -196,7 +273,27 @@ dashboard_data() {
 cleanup_old_metrics() {
     local keep_days="${1:-30}"
     
-    safe_echo "Cleaning metrics older than $keep_days days..." "warn"
+    debug_log "Starting cleanup - keeping last $keep_days days"
+    debug_log "Metrics directory: $METRICS_DIR"
+    
+    # Security: Validate keep_days parameter
+    if ! [[ "$keep_days" =~ ^[0-9]+$ ]] || [ "$keep_days" -lt 1 ] || [ "$keep_days" -gt 365 ]; then
+        safe_echo "ERROR: Invalid keep_days value. Must be 1-365" "error"
+        return 1
+    fi
+    
+    localized_echo "metrics.cleanup.starting" "warn" "$keep_days"
+    
+    # Security: Only perform cleanup operations if not in debug mode or explicitly confirmed
+    if [[ $DEBUG_MODE == 'true' ]]; then
+        safe_echo "DEBUG MODE: Cleanup operations logged but not executed" "warn"
+        debug_log "Would archive: $(find "$METRICS_DIR" -name "daily-*.json" -mtime +$keep_days 2>/dev/null | wc -l) files"
+        debug_log "Would trim log file: $METRICS_FILE"
+        return 0
+    fi
+    
+    # Create archive directory if needed
+    mkdir -p "$METRICS_DIR/archive"
     
     # Archive old daily reports
     find "$METRICS_DIR" -name "daily-*.json" -mtime +$keep_days -exec mv {} "$METRICS_DIR/archive/" \; 2>/dev/null || true
@@ -205,12 +302,18 @@ cleanup_old_metrics() {
     local cutoff_date=$(date -d "$keep_days days ago" -Iseconds 2>/dev/null || date -v-${keep_days}d -Iseconds)
     awk -F'|' -v cutoff="$cutoff_date" '$1 >= cutoff' "$METRICS_FILE" > "$METRICS_FILE.tmp" && mv "$METRICS_FILE.tmp" "$METRICS_FILE"
     
-    safe_echo "Cleanup completed" "success"
+    localized_echo "metrics.cleanup.completed" "success"
 }
 
 # 📖 Usage function
 usage() {
     echo "Usage: $0 [COMMAND] [OPTIONS]"
+    echo ""
+    echo "Environment Variables:"
+    echo "  DEBUG_MODE=true           Enable debug output (default: false)"
+    echo "                           ⚠️  WARNING: Only use in secure dev environments"
+    echo "                           [ALERT] NEVER enable in production or CI/CD"
+    echo "  CLAUDE_METRICS_DIR=path   Custom metrics directory (default: .claude/metrics)"
     echo ""
     echo "Commands:"
     echo "  hallucination TYPE SEVERITY [CONTEXT]  - Track hallucination event"
@@ -229,6 +332,10 @@ usage() {
     echo "  $0 report 2024-01-15"
     echo "  $0 dashboard 12"
     echo "  $0 cleanup 14"
+    echo ""
+    echo "Debug Mode Examples:"
+    echo "  DEBUG_MODE=true $0 report"
+    echo "  DEBUG_MODE=true $0 hallucination test medium 'debug test'"
 }
 
 # Main command handler

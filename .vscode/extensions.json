@@ -1,0 +1,58 @@
+{
+  "recommendations": [
+    // Claude Code Support
+    "anthropic.claude-code",
+    
+    // Core Development
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "formulahendry.auto-rename-tag",
+    
+    // Python Support
+    "ms-python.python",
+    "ms-python.pylint",
+    "ms-python.black-formatter",
+    "charliermarsh.ruff",
+    
+    // Markdown & Documentation
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "bierner.markdown-mermaid",
+    "shd101wyy.markdown-preview-enhanced",
+    
+    // Git & Version Control
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    
+    // JSON & Configuration
+    "ms-vscode.vscode-json",
+    
+    // Shell Scripting
+    "timonwong.shellcheck",
+    "foxundermoon.shell-format",
+    
+    // Security & Code Quality
+    "ms-vscode.vscode-github-issue-notebooks",
+    "github.vscode-github-actions",
+    
+    // Utility Extensions
+    "christian-kohler.path-intellisense",
+    "gruntfuggly.todo-tree",
+    "alefragnani.bookmarks",
+    "streetsidesoftware.code-spell-checker",
+    
+    // Testing
+    "ms-vscode.test-adapter-converter",
+    "hbenl.vscode-test-explorer",
+    
+    // Terminal & Task Management
+    "ms-vscode.powershell"
+  ],
+  "unwantedRecommendations": [
+    // Potentially conflicting extensions
+    "ms-vscode.vscode-typescript",
+    "hookyqr.beautify"
+  ]
+}

@@ -1,0 +1,332 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // Security Tasks
+    {
+      "label": "🔒 Security: Full Scan",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/security-monitor.sh", "scan"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "🔒 Security: Monitor (Background)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/security-monitor.sh", "monitor", "300"],
+      "group": "test",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    
+    // Validation Tasks
+    {
+      "label": "✅ Validate: Environment",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "check:env"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "✅ Validate: Security Setup",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "validate:security"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "✅ Validate: I18n Structure",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/i18n-integration.sh", "validate"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    
+    // Testing Tasks
+    {
+      "label": "🧪 Test: Python Quick",
+      "type": "shell",
+      "command": "python",
+      "args": ["-m", "pytest", "-v", "--tb=short"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*):(\\d+): (FAILED|ERROR) (.*)$",
+          "file": 1,
+          "line": 2,
+          "severity": 3,
+          "message": 4
+        }
+      }
+    },
+    {
+      "label": "🧪 Test: All",
+      "type": "shell",
+      "command": "npm",
+      "args": ["test"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    
+    // Setup Tasks
+    {
+      "label": "🚀 Setup: Security Wizard",
+      "type": "shell",
+      "command": "node",
+      "args": ["scripts/setup-wizard.js"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🚀 Setup: Install Dependencies",
+      "type": "shell",
+      "command": "npm",
+      "args": ["install"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    
+    // Monitoring Tasks
+    {
+      "label": "📊 Metrics: Dashboard",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/claude-metrics.sh", "dashboard"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "📊 Metrics: Daily Report",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/claude-metrics.sh", "report"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    
+    // Debug Tasks
+    {
+      "label": "🐛 Debug: Security Monitor",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/security-monitor.sh", "scan"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      },
+      "options": {
+        "env": {
+          "DEBUG_MODE": "true"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🐛 Debug: Metrics Collection",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/claude-metrics.sh", "dashboard"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      },
+      "options": {
+        "env": {
+          "DEBUG_MODE": "true"
+        }
+      },
+      "problemMatcher": []
+    },
+    
+    // I18n Tasks
+    {
+      "label": "🌐 I18n: Show Security Guide",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/i18n-integration.sh", "show", "security/monitoring-guide.md"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🌐 I18n: List Available",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/i18n-integration.sh", "list"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    
+    // Git Tasks
+    {
+      "label": "📝 Git: Status with Security Check",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-c", "git status && echo '--- Security Check ---' && bash scripts/security-monitor.sh scan"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    
+    // API Testing Tasks
+    {
+      "label": "🔌 Test: API Connectivity",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/retry-logic.sh", "test-connectivity", "https://api.anthropic.com/v1/messages", "${env:ANTHROPIC_API_KEY}"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔌 Test: Environment Variables",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/retry-logic.sh", "validate-env", "ANTHROPIC_API_KEY"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    
+    // Composite Tasks
+    {
+      "label": "🎯 Full Security Suite",
+      "dependsOn": [
+        "✅ Validate: Environment",
+        "✅ Validate: Security Setup",
+        "🔒 Security: Full Scan"
+      ],
+      "dependsOrder": "sequence",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "🚀 Complete Setup",
+      "dependsOn": [
+        "🚀 Setup: Install Dependencies",
+        "🚀 Setup: Security Wizard",
+        "✅ Validate: Environment"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      }
+    }
+  ]
+}

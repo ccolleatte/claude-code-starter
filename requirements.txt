@@ -1,9 +1,10 @@
 # Dependencies for Claude Code Configuration Framework Tests
 # Version minimale pour compatibilité
 
-# Testing framework
+# Testing framework - Required for 90% coverage target
 pytest>=7.0.0
 pytest-cov>=4.0.0
+coverage>=7.0.0
 
 # Optional: Test reporting
 pytest-html>=3.1.0

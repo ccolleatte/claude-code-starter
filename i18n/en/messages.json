@@ -1,0 +1,116 @@
+{
+  "common": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info",
+    "loading": "Loading...",
+    "done": "Done",
+    "failed": "Failed",
+    "cancelled": "Cancelled",
+    "yes": "Yes",
+    "no": "No",
+    "continue": "Continue",
+    "abort": "Abort",
+    "retry": "Retry",
+    "skip": "Skip"
+  },
+  "setup": {
+    "title": "Claude Starter Kit - Setup Wizard",
+    "welcome": "Welcome to the Claude Starter Kit setup wizard",
+    "description": "This tool will help you configure API keys and services",
+    "oneCommand": {
+      "welcome": "Automatic setup will configure everything in under 3 minutes",
+      "envDetection": "Detecting your environment...",
+      "dependenciesInstall": "Installing dependencies...",
+      "configSetup": "Setting up configuration...",
+      "validation": "Validating installation...",
+      "complete": "One-command setup completed successfully!"
+    },
+    "apiKeyPrompt": "Please enter your {service} API key",
+    "apiKeyInvalid": "Invalid API key format for {service}",
+    "apiKeyValid": "Valid API key for {service}",
+    "testingConnection": "Testing connection to {service}...",
+    "connectionSuccess": "Connection to {service} successful",
+    "connectionFailed": "Connection to {service} failed: {error}",
+    "savingConfig": "Saving configuration...",
+    "setupComplete": "Setup completed successfully!",
+    "setupFailed": "Setup failed: {error}",
+    "nextSteps": "Next steps:",
+    "runTests": "Run tests with: npm test",
+    "readDocs": "Read documentation in docs/ folder",
+    "getHelp": "Get help: {url}"
+  },
+  "security": {
+    "scanStarting": "Starting security scan...",
+    "scanComplete": "Security scan completed",
+    "vulnerabilitiesFound": "{count} vulnerabilities found",
+    "noVulnerabilities": "No vulnerabilities detected",
+    "monitoringActive": "Security monitoring active",
+    "monitoringStopped": "Security monitoring stopped",
+    "alertTriggered": "Security alert: {message}",
+    "statusHealthy": "Security status: Healthy",
+    "statusWarning": "Security status: Warning",
+    "statusCritical": "Security status: Critical"
+  },
+  "metrics": {
+    "collectingMetrics": "Collecting metrics...",
+    "metricsCollected": "Metrics collected successfully",
+    "generatingReport": "Generating daily report...",
+    "reportGenerated": "Report generated: {filename}",
+    "hallucination": {
+      "detected": "Hallucination detected",
+      "type": "Type: {type}",
+      "severity": "Severity: {severity}",
+      "context": "Context: {context}",
+      "threshold": "Threshold exceeded: {count}/{limit}"
+    },
+    "responseTime": {
+      "measured": "Response time: {duration}s for {operation}",
+      "slow": "Slow response detected: {duration}s > {threshold}s",
+      "average": "Average response time: {duration}s"
+    },
+    "template": {
+      "used": "Template used: {template} ({action})",
+      "error": "Template error: {template} ({action})"
+    },
+    "config": {
+      "error": "Config error in {file}: {message}"
+    },
+    "cleanup": {
+      "starting": "Cleaning metrics older than {days} days...",
+      "completed": "Cleanup completed"
+    }
+  },
+  "validation": {
+    "checking": "Checking {type}...",
+    "valid": "Valid: {item}",
+    "invalid": "Invalid: {item}",
+    "missing": "Missing: {item}",
+    "linksChecking": "Checking internal links...",
+    "linkBroken": "Broken link: {link} in {file}",
+    "terminologyChecking": "Checking terminology consistency...",
+    "terminologyIssue": "Terminology issue: {issue} in {file}",
+    "syntaxValid": "Syntax validation passed",
+    "syntaxError": "Syntax error in {file}: {error}",
+    "structureValid": "Project structure valid",
+    "structureError": "Structure error: {error}"
+  },
+  "environment": {
+    "checking": "Checking environment...",
+    "configured": "Environment configured",
+    "missing": "Missing environment variables: {vars}",
+    "debugMode": "Debug mode activated",
+    "debugWarning": "WARNING: Only use debug mode in secure development environments",
+    "ciWarning": "WARNING: Debug mode detected in CI/CD environment!",
+    "productionWarning": "NEVER enable debug mode in production"
+  },
+  "errors": {
+    "fileNotFound": "File not found: {filename}",
+    "permissionDenied": "Permission denied: {filename}",
+    "invalidFormat": "Invalid format: {item}",
+    "networkError": "Network error: {message}",
+    "configError": "Configuration error: {message}",
+    "unknownError": "Unknown error occurred: {message}"
+  }
+}

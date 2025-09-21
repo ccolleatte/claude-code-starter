@@ -1,0 +1,116 @@
+{
+  "common": {
+    "success": "Succès",
+    "error": "Erreur",
+    "warning": "Avertissement",
+    "info": "Information",
+    "loading": "Chargement...",
+    "done": "Terminé",
+    "failed": "Échec",
+    "cancelled": "Annulé",
+    "yes": "Oui",
+    "no": "Non",
+    "continue": "Continuer",
+    "abort": "Abandonner",
+    "retry": "Réessayer",
+    "skip": "Ignorer"
+  },
+  "setup": {
+    "title": "Kit de Démarrage Claude - Assistant de Configuration",
+    "welcome": "Bienvenue dans l'assistant de configuration du Kit de Démarrage Claude",
+    "description": "Cet outil vous aidera à configurer les clés API et services",
+    "oneCommand": {
+      "welcome": "La configuration automatique va tout configurer en moins de 3 minutes",
+      "envDetection": "Détection de votre environnement...",
+      "dependenciesInstall": "Installation des dépendances...",
+      "configSetup": "Configuration du système...",
+      "validation": "Validation de l'installation...",
+      "complete": "Configuration en une commande terminée avec succès!"
+    },
+    "apiKeyPrompt": "Veuillez saisir votre clé API {service}",
+    "apiKeyInvalid": "Format de clé API invalide pour {service}",
+    "apiKeyValid": "Clé API valide pour {service}",
+    "testingConnection": "Test de connexion à {service}...",
+    "connectionSuccess": "Connexion à {service} réussie",
+    "connectionFailed": "Connexion à {service} échouée : {error}",
+    "savingConfig": "Sauvegarde de la configuration...",
+    "setupComplete": "Configuration terminée avec succès !",
+    "setupFailed": "Échec de la configuration : {error}",
+    "nextSteps": "Étapes suivantes :",
+    "runTests": "Exécuter les tests avec : npm test",
+    "readDocs": "Lire la documentation dans le dossier docs/",
+    "getHelp": "Obtenir de l'aide : {url}"
+  },
+  "security": {
+    "scanStarting": "Démarrage du scan de sécurité...",
+    "scanComplete": "Scan de sécurité terminé",
+    "vulnerabilitiesFound": "{count} vulnérabilités trouvées",
+    "noVulnerabilities": "Aucune vulnérabilité détectée",
+    "monitoringActive": "Surveillance de sécurité active",
+    "monitoringStopped": "Surveillance de sécurité arrêtée",
+    "alertTriggered": "Alerte de sécurité : {message}",
+    "statusHealthy": "État de sécurité : Sain",
+    "statusWarning": "État de sécurité : Avertissement",
+    "statusCritical": "État de sécurité : Critique"
+  },
+  "metrics": {
+    "collectingMetrics": "Collecte des métriques...",
+    "metricsCollected": "Métriques collectées avec succès",
+    "generatingReport": "Génération du rapport quotidien...",
+    "reportGenerated": "Rapport généré : {filename}",
+    "hallucination": {
+      "detected": "Hallucination détectée",
+      "type": "Type : {type}",
+      "severity": "Gravité : {severity}",
+      "context": "Contexte : {context}",
+      "threshold": "Seuil dépassé : {count}/{limit}"
+    },
+    "responseTime": {
+      "measured": "Temps de réponse : {duration}s pour {operation}",
+      "slow": "Réponse lente détectée : {duration}s > {threshold}s",
+      "average": "Temps de réponse moyen : {duration}s"
+    },
+    "template": {
+      "used": "Template utilisé : {template} ({action})",
+      "error": "Erreur de template : {template} ({action})"
+    },
+    "config": {
+      "error": "Erreur de configuration dans {file} : {message}"
+    },
+    "cleanup": {
+      "starting": "Nettoyage des métriques de plus de {days} jours...",
+      "completed": "Nettoyage terminé"
+    }
+  },
+  "validation": {
+    "checking": "Vérification de {type}...",
+    "valid": "Valide : {item}",
+    "invalid": "Invalide : {item}",
+    "missing": "Manquant : {item}",
+    "linksChecking": "Vérification des liens internes...",
+    "linkBroken": "Lien cassé : {link} dans {file}",
+    "terminologyChecking": "Vérification de la cohérence terminologique...",
+    "terminologyIssue": "Problème terminologique : {issue} dans {file}",
+    "syntaxValid": "Validation syntaxique réussie",
+    "syntaxError": "Erreur de syntaxe dans {file} : {error}",
+    "structureValid": "Structure du projet valide",
+    "structureError": "Erreur de structure : {error}"
+  },
+  "environment": {
+    "checking": "Vérification de l'environnement...",
+    "configured": "Environnement configuré",
+    "missing": "Variables d'environnement manquantes : {vars}",
+    "debugMode": "Mode debug activé",
+    "debugWarning": "ATTENTION : Utilisez le mode debug uniquement dans des environnements de développement sécurisés",
+    "ciWarning": "ATTENTION : Mode debug détecté dans un environnement CI/CD !",
+    "productionWarning": "NE JAMAIS activer le mode debug en production"
+  },
+  "errors": {
+    "fileNotFound": "Fichier non trouvé : {filename}",
+    "permissionDenied": "Permission refusée : {filename}",
+    "invalidFormat": "Format invalide : {item}",
+    "networkError": "Erreur réseau : {message}",
+    "configError": "Erreur de configuration : {message}",
+    "unknownError": "Erreur inconnue : {message}"
+  }
+}

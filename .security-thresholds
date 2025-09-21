@@ -1,0 +1,31 @@
+# Security Thresholds Configuration
+# Customize security monitoring thresholds for your environment
+
+# Maximum number of failed operations in time window before alert
+MAX_FAILED_OPERATIONS=5
+
+# Maximum number of debug mode activations in time window before alert
+MAX_DEBUG_ACTIVATIONS=3
+
+# Maximum number of suspicious patterns before alert
+MAX_SUSPICIOUS_PATTERNS=2
+
+# Time window for monitoring (in seconds) - default 1 hour
+ALERT_TIME_WINDOW=3600
+
+# Additional thresholds for specific events
+MAX_API_KEY_VALIDATION_FAILURES=3
+MAX_FILE_PERMISSION_ERRORS=5
+MAX_NETWORK_TIMEOUTS=10
+
+# Dashboard refresh interval (seconds)
+DASHBOARD_REFRESH_INTERVAL=300
+
+# Log retention period (days)
+SECURITY_LOG_RETENTION_DAYS=30
+
+# Enable/disable specific monitoring features
+ENABLE_REAL_TIME_MONITORING=true
+ENABLE_PATTERN_DETECTION=true
+ENABLE_LOG_SCANNING=true
+ENABLE_METRICS_GENERATION=true

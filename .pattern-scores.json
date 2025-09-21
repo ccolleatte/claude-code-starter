@@ -1,0 +1,16 @@
+{
+  "demo-pattern": {
+    "test_coverage": 75.0,
+    "documentation_score": 80.0,
+    "security_score": 70.0,
+    "overall_score": 76.0,
+    "grade": "B"
+  },
+  "security": {
+    "test_coverage": 0.0,
+    "documentation_score": 80.0,
+    "security_score": 50.0,
+    "overall_score": 42.0,
+    "grade": "F"
+  }
+}

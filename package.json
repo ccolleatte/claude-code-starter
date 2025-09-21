@@ -1,18 +1,41 @@
 {
-  "name": "claude-starter-kit",
+  "name": "@ccolleatte/claude-code-starter-kit",
   "version": "4.1.0",
   "description": "Claude Code Configuration Framework v4.1 - Doctoral-level standards",
   "main": "index.js",
+  "files": [
+    ".claude/",
+    "scripts/",
+    "tests/",
+    "docs/",
+    "templates/",
+    "LICENSE",
+    "README.md",
+    "README-FR.md",
+    ".env.example",
+    "package.json",
+    "requirements.txt"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "pytest tests/claude/ -v",
     "test:quick": "pytest tests/claude/test_templates_syntax.py -v",
     "test:mcp": "pytest tests/claude/test_mcp_scripts.py -v",
     "test:integration": "pytest tests/claude/test_integration.py -v",
     "test:all": "pytest tests/claude/ -v --tb=short",
-    "setup": "node templates/security/setup-wizard.js",
-    "security:scan": "bash scripts/security-monitor.sh scan",
-    "security:monitor": "bash scripts/security-monitor.sh monitor",
-    "security:status": "bash scripts/security-monitor.sh status",
+    "test:coverage": "pytest tests/claude/ --cov=scripts --cov=.claude --cov-report=html --cov-report=term-missing --cov-fail-under=48 -v",
+    "test:coverage-xml": "pytest tests/claude/ --cov=scripts --cov=.claude --cov-report=xml --cov-fail-under=48",
+    "setup": "node scripts/setup-wizard.js",
+    "setup:auto": "bash scripts/one-command-setup.sh",
+    "setup:quick": "CLAUDE_SETUP_AUTO=true bash scripts/one-command-setup.sh",
+    "security:scan": "bash scripts/security-monitor.sh scan || scripts/security-monitor-win.bat scan",
+    "security:monitor": "bash scripts/security-monitor.sh monitor || echo 'Real-time monitoring requires bash/WSL on Windows'",
+    "security:status": "bash scripts/security-monitor.sh status || scripts/security-monitor-win.bat status",
+    "security:dashboard": "bash scripts/security-monitor.sh dashboard || scripts/security-monitor-win.bat dashboard",
+    "security:metrics": "bash scripts/security-monitor.sh metrics || scripts/security-monitor-win.bat metrics",
+    "security:init": "bash scripts/security-monitor.sh init || scripts/security-monitor-win.bat init",
     "validate": "bash .github/workflows/validate-local.sh || echo 'Run in bash/WSL on Windows'",
     "validate:syntax": "python -m pytest tests/claude/test_templates_syntax.py -v",
     "validate:security": "gitleaks detect --source . || echo 'Install gitleaks for security scanning'",
@@ -26,7 +49,11 @@
     "backlog:update": "python .product-review/scripts/update-status.py",
     "ci:local": "npm run validate && npm run test:all",
     "format": "echo 'Formatting - add prettier/black when needed'",
-    "lint": "echo 'Linting - add eslint/ruff when needed'"
+    "lint": "echo 'Linting - add eslint/ruff when needed'",
+    "patterns:score": "python scripts/pattern-quality-scorer.py --score",
+    "patterns:show": "python scripts/pattern-quality-scorer.py --show",
+    "patterns:summary": "python scripts/pattern-quality-scorer.py --show --format=summary",
+    "postinstall": "node index.js"
   },
   "keywords": [
     "claude",
@@ -36,9 +63,19 @@
     "tdd",
     "framework",
     "anti-hallucination",
-    "validation"
+    "validation",
+    "claude-code",
+    "automation",
+    "testing",
+    "security",
+    "monitoring",
+    "ci-cd"
   ],
-  "author": "Claude Config Framework Team",
+  "author": {
+    "name": "Claude Config Framework Team",
+    "email": "contact@ccolleatte.dev",
+    "url": "https://github.com/ccolleatte"
+  },
   "license": "MIT",
   "devDependencies": {
     "pytest": "^7.4.0"
@@ -49,12 +86,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/claude-starter-kit.git"
+    "url": "git+https://github.com/ccolleatte/claude-code-starter.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/claude-starter-kit/issues"
+    "url": "https://github.com/ccolleatte/claude-code-starter/issues"
   },
-  "homepage": "https://github.com/your-org/claude-starter-kit#readme",
+  "homepage": "https://github.com/ccolleatte/claude-code-starter#readme",
   "config": {
     "claude_version": "4.1.0",
     "framework_type": "configuration",

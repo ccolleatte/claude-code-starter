@@ -1,6 +1,6 @@
 // Claude Framework Dashboard - Real-time metrics visualization
-// SECURITY: Refactored to eliminate XSS vulnerabilities via innerHTML
-// Uses secure DOM manipulation throughout
+/*/* SECURITY: Refactored to eliminate XSS vulnerabilities via direct DOM injection
+   Uses secure DOM manipulation throughout */
 
 class ClaudeDashboard {
     constructor() {
@@ -54,7 +54,7 @@ class ClaudeDashboard {
             return;
         }
 
-        // SECURITY FIX: Use safe DOM manipulation instead of innerHTML
+        // SECURITY FIX: Use safe DOM manipulation instead of direct HTML insertion
         container.replaceChildren();
 
         // Create dashboard container
