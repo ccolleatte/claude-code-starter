@@ -1,0 +1,26 @@
+# TruffleHog Configuration
+# Prevents BASE/HEAD same commit errors
+
+# Only scan verified secrets to reduce false positives
+only-verified: true
+
+# Scan configuration
+include-paths:
+  - "**/*"
+
+exclude-paths:
+  - ".git/**"
+  - "node_modules/**"
+  - ".vscode/**"
+  - "htmlcov/**"
+  - ".coverage"
+  - "*.log"
+
+# Handle edge cases
+allow-verification-overlap: true
+
+# Custom rules for better scanning
+custom-detectors: []
+
+# Output configuration
+format: "json"
