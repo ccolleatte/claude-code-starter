@@ -120,15 +120,35 @@ git stash                  # Ou sauvegarder pour analyse
 ## ⚠️ Environnement Requis
 
 ```bash
-# Minimal
-export OPENAI_API_KEY="your-key"
+# Setup automatique
+npm run setup:quick      # Configuration initiale
+npm run setup:validate   # Vérification complète
 
-# Pour Cipher (mémoire)
-export ANTHROPIC_API_KEY="your-key"  
-export VOYAGE_API_KEY="your-key"
+# Clés API requises (.env)
+ANTHROPIC_API_KEY="your-key"  # Cipher + Claude
+VOYAGE_API_KEY="your-key"     # Embeddings Cipher  
+OPENAI_API_KEY="your-key"     # Tests & développement
+EXA_API_KEY="your-key"        # Recherche web (optionnel)
 
-# Vérifier
-npm run check:env
+# Validation
+npm run check:env             # Vérifier clés API
+npm test                      # 128 tests doivent passer
+```
+
+## 🔧 Configuration MCP Autonome
+
+Le kit utilise maintenant une configuration MCP **autonome** :
+
+```json
+// .claude/mcp.json (configuré automatiquement)
+{
+  "mcpServers": {
+    "serena": { "command": "bash", "args": [".claude/scripts/serena-mcp.sh"] },
+    "cipher": { "command": "bash", "args": [".claude/scripts/cipher-mcp.sh"] },
+    "semgrep": { "command": "bash", "args": [".claude/scripts/semgrep-mcp.sh"] },
+    "exa": { "command": "bash", "args": [".claude/scripts/exa-mcp.sh"] }
+  }
+}
 ```
 
 ---

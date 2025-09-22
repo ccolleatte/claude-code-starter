@@ -151,8 +151,10 @@ class TestClaudeIntegration:
 
     def test_backup_and_security(self):
         """Vérifie les mesures de backup et sécurité"""
-        # Vérifier backup CLAUDE.md
-        backup_files = list(Path(".").glob("CLAUDE.md.v40.backup.*"))
+        # Vérifier backup CLAUDE.md (maintenant dans docs/analysis)
+        backup_files = list(Path("docs/analysis").glob("CLAUDE.md.v40.backup.*"))
+        if len(backup_files) == 0:
+            backup_files = list(Path(".").glob("CLAUDE.md.v40.backup.*"))
         assert len(backup_files) > 0, \
             "Au moins un backup CLAUDE.md doit exister"
         

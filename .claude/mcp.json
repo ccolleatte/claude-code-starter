@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "serena": {
+      "type": "stdio",
+      "command": "bash",
+      "args": [".claude/scripts/serena-mcp.sh"]
+    },
+    "cipher": {
+      "type": "stdio", 
+      "command": "bash",
+      "args": [".claude/scripts/cipher-mcp.sh"]
+    },
+    "semgrep": {
+      "type": "stdio",
+      "command": "bash", 
+      "args": [".claude/scripts/semgrep-mcp.sh"]
+    },
+    "exa": {
+      "type": "stdio",
+      "command": "bash",
+      "args": [".claude/scripts/exa-mcp.sh"]
+    }
+  }
+}
