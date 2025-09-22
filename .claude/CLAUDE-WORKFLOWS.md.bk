@@ -1,4 +1,4 @@
-# CLAUDE-WORKFLOWS-v2.md - Workflows + TodoWrite Natif
+# CLAUDE-WORKFLOWS.md - Workflows & Commandes Détaillés
 
 ## 🚀 Setup Initial Complet
 
@@ -31,7 +31,6 @@ npm test:all
 {
   "allowedTools": [
     "Edit",
-    "TodoWrite",
     "Bash(pytest *)",
     "Bash(npm test*)",
     "Bash(git status)",
@@ -45,100 +44,27 @@ npm test:all
 }
 ```
 
-<!-- AJOUT v2: Gestion TodoWrite native -->
-## 📋 Gestion TodoWrite Native
-
-### Principes TodoWrite v2
-- **Outil exclusif** : Abandonner tasks/todo.md et fichiers externes
-- **Tracking temps réel** : État synchronisé avec l'exécution
-- **Classification auto** : Simple vs Complexe selon critères objectifs
-- **Communication adaptée** : Verbosité graduée selon TodoWrite
-
-### Workflow TodoWrite Optimisé
-```markdown
-# 1. Classification immédiate
-Tâche reçue → Analyser complexité → Créer TodoWrite adapté
-
-# 2. Exécution par état
-- pending → in_progress (UNE SEULE à la fois)
-- in_progress → completed (immédiatement après finition)
-- Jamais de batch completion
-
-# 3. Communication synchronisée
-- Tâche simple : TodoWrite minimal, communication concise
-- Tâche complexe : TodoWrite détaillé, validation collaborative
-```
-
-### Templates TodoWrite par Type
-
-#### Tâche Simple (< 3 étapes)
-```json
-[
-  {
-    "content": "Fix bug authentication",
-    "status": "in_progress",
-    "activeForm": "Fixing authentication bug"
-  }
-]
-```
-
-#### Tâche Complexe (≥ 3 étapes)
-```json
-[
-  {
-    "content": "Analyze existing auth system structure",
-    "status": "completed",
-    "activeForm": "Analyzing existing auth system structure"
-  },
-  {
-    "content": "Design new OAuth2 integration",
-    "status": "in_progress",
-    "activeForm": "Designing new OAuth2 integration"
-  },
-  {
-    "content": "Implement OAuth2 provider configuration",
-    "status": "pending",
-    "activeForm": "Implementing OAuth2 provider configuration"
-  },
-  {
-    "content": "Create integration tests for OAuth2 flow",
-    "status": "pending",
-    "activeForm": "Creating integration tests for OAuth2 flow"
-  },
-  {
-    "content": "Update documentation and migration guide",
-    "status": "pending",
-    "activeForm": "Updating documentation and migration guide"
-  }
-]
-```
-<!-- FIN AJOUT v2 -->
-
 ## 🔄 Cycles de Développement
 
-<!-- AJOUT v2: Cycle TDD avec TodoWrite -->
-### Cycle TDD Complet v4.2 (avec TodoWrite)
+### Cycle TDD Complet v4.0
 ```bash
-# 1. Planification TodoWrite
-# Classification: Simple ou Complexe
-# Création TodoWrite adaptée
+# 1. Planification
+npm run estimator:workflow docs/PRD.md  # Estimation automatique
 
 # 2. RED - Écriture des tests
-# Marquer todo "Write failing test" as in_progress
+# Créer/modifier le fichier de test
 vim tests/feature.test.js
 # Vérifier qu'il échoue
 npm test  # Doit montrer ❌
-# Marquer todo as completed
 
-# 3. GREEN - Implémentation minimale
-# Marquer todo "Implement minimal code" as in_progress
+# 3. GREEN - Implémentation minimale  
+# Coder juste assez
 vim src/feature.js
 # Vérifier que ça passe
 npm test  # Doit montrer ✅
-# Marquer todo as completed
 
 # 4. REFACTOR - Amélioration
-# Si todos restants ET tous tests verts
+# Si tous les tests passent
 npm run lint:fix
 npm run format
 npm test:all  # Tout doit rester ✅
@@ -147,7 +73,6 @@ npm test:all  # Tout doit rester ✅
 git add -p  # Review interactif
 git commit -m "feat: [description]"
 ```
-<!-- FIN AJOUT v2 -->
 
 ### Workflow Hot-Reload Optimisé
 ```bash
@@ -155,7 +80,7 @@ git commit -m "feat: [description]"
 npm run dev:backend
 # Hot-reload <500ms sur changements Python
 
-# Terminal 2 - Frontend
+# Terminal 2 - Frontend  
 npm run dev:frontend
 # Hot-reload React/Vue instantané
 
@@ -206,50 +131,48 @@ npm run test:perf
 npm run test:security
 ```
 
-<!-- AJOUT v2: Agents avec TodoWrite -->
-## 🤖 Agents + TodoWrite Integration
+## 🤖 Utilisation des Agents
 
-### Agent TodoWrite-Aware
+### Configuration Agents Spécialisés
 ```yaml
-# .claude/agents/task-manager.yaml
-name: task-manager
-role: "Manage complex tasks with TodoWrite"
+# .claude/agents/test-runner.yaml
+name: test-runner
+role: "Execute and analyze test results"
 permissions:
-  - TodoWrite
+  - Bash(pytest *)
   - Bash(npm test*)
+  - View(tests/*)
+instructions: |
+  - Run tests and parse TAP output
+  - Identify real failures vs flaky
+  - Suggest fixes based on errors
+
+# .claude/agents/code-reviewer.yaml  
+name: code-reviewer
+role: "Review code changes"
+permissions:
   - View(src/*)
+  - Bash(git diff)
 instructions: |
-  - Always create TodoWrite for tasks ≥3 steps
-  - One todo in_progress at a time
-  - Complete todos immediately after execution
-  - Adapt communication to todo complexity
-
-# .claude/agents/simple-executor.yaml
-name: simple-executor
-role: "Execute simple tasks efficiently"
-permissions:
-  - Edit
-  - Bash(npm test*)
-instructions: |
-  - For tasks <3 steps
-  - Minimal TodoWrite if any
-  - Direct execution, concise communication
-  - Focus on speed and accuracy
+  - Check style compliance
+  - Identify potential bugs
+  - Verify test coverage
 ```
 
-### Commandes Agents TodoWrite
+### Commandes Agents
 ```bash
-# Lancer agent selon complexité tâche
-claude --agent task-manager "Implement OAuth2 system"
-claude --agent simple-executor "Fix typo in README"
+# Lancer un agent spécifique
+claude --agent test-runner "Run all tests"
 
-# Agent de review avec TodoWrite tracking
-claude --agent code-reviewer "Review my changes" --track-todos
+# Agent de review
+claude --agent code-reviewer "Review my changes"
 
-# Créer agent TodoWrite-optimisé
-claude /agents create --template todowrite-aware
+# Créer nouvel agent
+claude /agents create optimizer
+
+# Lister agents disponibles
+claude /agents list
 ```
-<!-- FIN AJOUT v2 -->
 
 ## 📦 Workflows NPM Scripts
 
@@ -282,7 +205,7 @@ npm run deps:audit       # Security audit
 npm run pre-commit
 # Équivalent à:
 # - lint:fix
-# - format
+# - format  
 # - test
 # - ai:review
 
@@ -399,35 +322,33 @@ git reflog
 git cherry-pick [commit-hash]
 ```
 
-<!-- AJOUT v2: Monitoring TodoWrite -->
-## 📊 Monitoring & Métriques TodoWrite
+## 📊 Monitoring & Métriques
 
-### Dashboard TodoWrite Temps Réel
+### Dashboard Temps Réel
 ```bash
-# Lancer dashboard avec tracking TodoWrite
-npm run dashboard:todowrite
-# Accès: http://localhost:8081
+# Lancer dashboard
+npm run dashboard
+# Accès: http://localhost:8080
 
-# Métriques TodoWrite disponibles:
-# - Tâches complétées par session
-# - Temps moyen par todo
-# - Ratio simple/complexe
-# - Taux de validation collaborative
-# - Efficacité communication graduée
+# Métriques disponibles:
+# - Test execution time
+# - Coverage trends  
+# - Build performance
+# - Flaky tests
+# - CI pipeline status
 ```
 
-### Rapports TodoWrite
+### Rapports Automatisés
 ```bash
-# Rapport d'efficacité TodoWrite
-npm run todowrite:efficiency
+# Rapport de santé projet
+npm run health:check
 
-# Analyse pattern complexité
-npm run todowrite:complexity-analysis
+# Analyse de dette technique
+npm run debt:analyze
 
-# Rapport communication adaptative
-npm run todowrite:communication-report
+# Rapport de performance
+npm run perf:report
 ```
-<!-- FIN AJOUT v2 -->
 
 ## 🌐 Intégrations Externes
 
@@ -449,7 +370,7 @@ supabase backup create
 # Export workflow
 n8n export:workflow [id] > workflow.json
 
-# Import workflow
+# Import workflow  
 n8n import:workflow < workflow.json
 
 # Test webhook
@@ -493,4 +414,4 @@ git push origin hotfix-v1.2.4
 ```
 
 ---
-**Voir aussi** : CLAUDE-v2.md | CLAUDE-VALIDATION-v2.md | CLAUDE-ERRORS.md
+**Voir aussi** : CLAUDE.md | CLAUDE-VALIDATION.md | CLAUDE-ERRORS.md

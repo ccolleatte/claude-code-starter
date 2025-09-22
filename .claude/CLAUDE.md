@@ -1,15 +1,21 @@
-# CLAUDE.md - Instructions Critiques v4.1
+# CLAUDE-v2.md - Instructions Critiques + Workflow Adaptatif
 
-Ce fichier contient UNIQUEMENT les règles critiques. 
-Voir aussi : CLAUDE-WORKFLOWS.md | CLAUDE-VALIDATION.md | CLAUDE-ERRORS.md
+Ce fichier contient les règles critiques ENRICHIES avec workflow intelligent.
+Voir aussi : CLAUDE-WORKFLOWS-v2.md | CLAUDE-VALIDATION-v2.md | CLAUDE-ERRORS.md
 
 ## 🔴 RÈGLES ABSOLUES (violation = arrêt immédiat)
 
 1. **JAMAIS créer sans analyser** : `mcp__serena__list_dir` OBLIGATOIRE avant création
 2. **TOUJOURS prouver par exécution** : Pas d'affirmation sans output réel
-3. **JAMAIS modifier main** : Branches feature/* ou fix/* uniquement  
+3. **JAMAIS modifier main** : Branches feature/* ou fix/* uniquement
 4. **Noms de fonctions stricts** : `calculate_elo_delta()` PAS d'autres variantes
 5. **Tests avant code** : RED → GREEN → REFACTOR sans exception
+
+<!-- AJOUT v2: Workflow adaptatif par complexité -->
+6. **TodoWrite OBLIGATOIRE** : Utiliser exclusivement l'outil intégré Claude Code
+7. **Communication graduée** : Adapter la verbosité à la complexité de la tâche
+8. **Validation conditionnelle** : Tâches complexes uniquement (≥3 étapes ou impact architectural)
+<!-- FIN AJOUT v2 -->
 
 ## 🛑 Stop Conditions Automatiques
 
@@ -19,6 +25,29 @@ Voir aussi : CLAUDE-WORKFLOWS.md | CLAUDE-VALIDATION.md | CLAUDE-ERRORS.md
 - Fonction introuvable → DEMANDER, ne pas créer
 - Incertitude sur approche → CLARIFIER avant action
 ```
+
+<!-- AJOUT v2: Classification automatique des tâches -->
+## 🎯 Classification Automatique des Tâches
+
+### Tâches SIMPLES (< 3 étapes)
+- **Exécution directe** sans validation préalable
+- **Communication concise** (1-2 phrases max)
+- **TodoWrite minimal** si nécessaire
+- **Exemples** : Fix bug simple, ajout fonction basique, modification config
+
+### Tâches COMPLEXES (≥ 3 étapes OU impact architectural)
+- **TodoWrite détaillé** pour planification
+- **Validation collaborative** avant implémentation
+- **Documentation des décisions** via Cipher ou commentaires code
+- **Tests incrémentaux** à chaque étape
+- **Exemples** : Nouvelle feature, refactoring majeur, intégration externe
+
+### Triggers de Validation OBLIGATOIRE
+- Modifications architecturales
+- Changements de conventions établies
+- Impact sur multiple projets du workspace
+- Nouvelles dépendances ou technologies
+<!-- FIN AJOUT v2 -->
 
 ## ⚡ Commandes Essentielles
 
@@ -47,12 +76,12 @@ Voir **CLAUDE-SETTINGS.md** pour configuration complète des permissions.
 
 ```bash
 # 1. RED - Test d'abord
-echo "Test doit échouer" 
+echo "Test doit échouer"
 pytest tests/new_test.py  # ❌ DOIT échouer
 
 # 2. GREEN - Code minimal
 echo "Implémenter JUSTE assez pour passer"
-pytest tests/new_test.py  # ✅ DOIT passer  
+pytest tests/new_test.py  # ✅ DOIT passer
 
 # 3. REFACTOR - Si tous tests verts
 echo "Améliorer sans casser"
@@ -67,7 +96,7 @@ packages/           # Modules monorepo
   └── nom-module/   # kebab-case TOUJOURS
       ├── src/      # Code source
       └── tests/    # Tests du module
-src/               # Code principal  
+src/               # Code principal
   ├── config/      # Configuration
   └── scripts/     # Utilitaires
 tests/             # Tests globaux
@@ -75,7 +104,7 @@ tests/             # Tests globaux
 
 ### Nommage obligatoire
 - **Dossiers** : `kebab-case` (ex: `tdd-agents-basic/`)
-- **Fichiers JS/TS** : `camelCase.js` (ex: `testRunner.js`)  
+- **Fichiers JS/TS** : `camelCase.js` (ex: `testRunner.js`)
 - **Composants** : `PascalCase.jsx` (ex: `Dashboard.jsx`)
 - **Tests** : `*.test.js` ou `*.spec.js`
 
@@ -86,6 +115,23 @@ tests/             # Tests globaux
 3. "Impact sur tests existants ?" → `npm test` avant/après
 4. "Ai-je la structure à jour ?" → `mcp__serena__list_dir`
 
+<!-- AJOUT v2: Excellence technique toujours appliquée -->
+## 🏗️ Excellence Technique (toujours)
+
+- **Cause racine** : Identifier et traiter la source du problème
+- **Solutions durables** : Éviter patches temporaires
+- **Impact minimal** : Préserver stabilité du code existant
+- **Simplicité élégante** : Éviter sur-ingénierie
+
+### Communication graduée par complexité
+```
+Tâche triviale    → Réponse directe (1 ligne)
+Tâche standard    → Explication concise (2-3 lignes)
+Tâche complexe    → Documentation détaillée + validation
+Tâche critique    → Plan complet + revue collaborative
+```
+<!-- FIN AJOUT v2 -->
+
 ## 🚨 Procédure Erreur/Hallucination
 
 ```bash
@@ -93,7 +139,7 @@ tests/             # Tests globaux
 git diff                    # Identifier changement suspect
 pytest tests/ --tb=short   # Localiser échec précis
 
-# 2. Récupération  
+# 2. Récupération
 git reset --hard HEAD      # Annuler si nécessaire
 git stash                  # Ou sauvegarder pour analyse
 
@@ -112,24 +158,44 @@ git stash                  # Ou sauvegarder pour analyse
 
 ## 🔗 Références Critiques
 
-- **Workflows détaillés** : voir `CLAUDE-WORKFLOWS.md`
-- **Validation & anti-BS** : voir `CLAUDE-VALIDATION.md`  
+- **Workflows détaillés** : voir `CLAUDE-WORKFLOWS-v2.md`
+- **Validation & anti-BS** : voir `CLAUDE-VALIDATION-v2.md`
 - **Erreurs courantes** : voir `CLAUDE-ERRORS.md`
 - **Architecture** : voir `docs/architecture-decisions.md`
 
 ## ⚠️ Environnement Requis
 
 ```bash
-# Minimal
-export OPENAI_API_KEY="your-key"
+# Setup automatique
+npm run setup:quick      # Configuration initiale
+npm run setup:validate   # Vérification complète
 
-# Pour Cipher (mémoire)
-export ANTHROPIC_API_KEY="your-key"  
-export VOYAGE_API_KEY="your-key"
+# Clés API requises (.env)
+ANTHROPIC_API_KEY="your-key"  # Cipher + Claude
+VOYAGE_API_KEY="your-key"     # Embeddings Cipher
+OPENAI_API_KEY="your-key"     # Tests & développement
+EXA_API_KEY="your-key"        # Recherche web (optionnel)
 
-# Vérifier
-npm run check:env
+# Validation
+npm run check:env             # Vérifier clés API
+npm test                      # 128 tests doivent passer
+```
+
+## 🔧 Configuration MCP Autonome
+
+Le kit utilise maintenant une configuration MCP **autonome** :
+
+```json
+// .claude/mcp.json (configuré automatiquement)
+{
+  "mcpServers": {
+    "serena": { "command": "bash", "args": [".claude/scripts/serena-mcp.sh"] },
+    "cipher": { "command": "bash", "args": [".claude/scripts/cipher-mcp.sh"] },
+    "semgrep": { "command": "bash", "args": [".claude/scripts/semgrep-mcp.sh"] },
+    "exa": { "command": "bash", "args": [".claude/scripts/exa-mcp.sh"] }
+  }
+}
 ```
 
 ---
-**Version** : 4.1.0 | **Focus** : Critiques Only | **Lignes** : <150
+**Version** : 4.2.0 | **Focus** : Critiques + Workflow Adaptatif | **Lignes** : <180

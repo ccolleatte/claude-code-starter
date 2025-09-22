@@ -1,4 +1,4 @@
-# CLAUDE-VALIDATION-v2.md - Anti-Bullshit + Approche Adaptative
+# CLAUDE-VALIDATION.md - Anti-Bullshit & Validation Stricte
 
 ## 🚨 RÈGLE ABSOLUE : Preuves Obligatoires
 
@@ -6,7 +6,7 @@
 
 ```markdown
 ❌ "Les tests passent"
-❌ "Le build fonctionne"
+❌ "Le build fonctionne"  
 ❌ "C'est corrigé"
 ❌ "Ça devrait marcher"
 ❌ "Amélioration significative"
@@ -21,45 +21,6 @@
 ✅ "Bug #1234 corrigé: TypeError résolu ligne 89 de user.js"
 ✅ "Performance: 450ms → 120ms (-73%, benchmark ligne 67)"
 ```
-
-<!-- AJOUT v2: Validation adaptée à la complexité -->
-## 🎯 Validation Adaptative par Complexité
-
-### Tâches SIMPLES (< 3 étapes)
-```markdown
-VALIDATION ALLÉGÉE:
-□ Commande exécutée réellement ?
-□ Output capturé et cité ?
-□ Changement isolé et minimal ?
-
-Communication: Preuve concise (1-2 lignes)
-Exemple: "Fix appliqué ligne 42, test user.test.js:89 passe"
-```
-
-### Tâches COMPLEXES (≥ 3 étapes)
-```markdown
-VALIDATION RENFORCÉE:
-□ Chaque étape exécutée et prouvée ?
-□ Métriques before/after documentées ?
-□ Impact sur tests existants vérifié ?
-□ Architecture/conventions respectées ?
-□ Documentation décisions critiques ?
-
-Communication: Rapport détaillé avec sections
-```
-
-### Tâches CRITIQUES (impact architectural)
-```markdown
-VALIDATION EXHAUSTIVE:
-□ Tous les points complexes +
-□ Validation collaborative obtenue ?
-□ Tests d'intégration complets ?
-□ Plan de rollback préparé ?
-□ Monitoring post-déploiement ?
-
-Communication: Documentation complète + revue
-```
-<!-- FIN AJOUT v2 -->
 
 ## 📋 Checklist Validation OBLIGATOIRE
 
@@ -91,7 +52,7 @@ echo "=== Test run at $(date) ===" && npm test
 ```markdown
 Compter manuellement:
 - Nombre de "ok" : X
-- Nombre de "not ok" : Y
+- Nombre de "not ok" : Y  
 - Tests skipped : Z
 - Durée totale : T secondes
 
@@ -132,30 +93,17 @@ Format obligatoire:
     Mesure: performance.now() ligne 34-78
     Méthode: Mise en cache des résultats"
 
-# Au lieu de : "Bug corrigé"
+# Au lieu de : "Bug corrigé"  
 ✅ "Fix TypeError ligne 89:
     - Cause: user.name undefined
     - Solution: Ajout guard clause ligne 87
     - Test: user.test.js:45 valide le fix"
 ```
 
-<!-- AJOUT v2: Métriques adaptatives -->
-## 🔬 Métriques Adaptatives
+## 🔬 Métriques Obligatoires
 
-### Tâches Simples - Métriques Minimales
-```markdown
-OBLIGATOIRE:
-- Status: [passed/failed]
-- Source: [commande:ligne]
-- Temps: [durée]
+### Pour chaque modification
 
-EXEMPLE:
-Status: passed
-Source: pytest tests/auth.test.py:45
-Temps: 0.3s
-```
-
-### Tâches Complexes - Métriques Complètes
 ```markdown
 AVANT:
 - Metric: [valeur]
@@ -163,37 +111,26 @@ AVANT:
 - Timestamp: [heure]
 
 APRÈS:
-- Metric: [nouvelle valeur]
+- Metric: [nouvelle valeur]  
 - Delta: [différence] ([pourcentage]%)
 - Validation: [test qui confirme]
+```
 
-EXEMPLE:
-AVANT: Response time: 1250ms (curl -w "%{time_total}")
+### Exemples Concrets
+
+```bash
+# Performance
+AVANT: Response time: 1250ms (measured: curl -w "%{time_total}")
 APRÈS: Response time: 320ms (-74.4%)
-Validation: performance.test.js:67 confirms < 500ms
+
+# Code Quality
+AVANT: Complexity: 15 (eslint complexity report)
+APRÈS: Complexity: 8 (-46.7%)
+
+# Test Coverage
+AVANT: Coverage: 67% (jest --coverage)
+APRÈS: Coverage: 91% (+24 points)
 ```
-
-### Tâches Critiques - Métriques Exhaustives
-```markdown
-BASELINE METRICS:
-- Performance: [avant]
-- Security: [scan results]
-- Coverage: [%]
-- Dependencies: [audit]
-
-POST-CHANGE METRICS:
-- Performance: [après] ([delta])
-- Security: [new scan]
-- Coverage: [nouveau %] ([delta])
-- Dependencies: [nouveau audit]
-- Regression: [tests passed]
-
-MONITORING:
-- Key metrics: [à surveiller]
-- Alerts: [seuils critiques]
-- Rollback plan: [procédure]
-```
-<!-- FIN AJOUT v2 -->
 
 ## 🚫 Détection des Hallucinations
 
@@ -227,92 +164,54 @@ find . -name "*.js" -exec grep -l "function" {} \;
 "Exécute la commande Z et montre l'output complet"
 ```
 
-<!-- AJOUT v2: Templates de rapport adaptatifs -->
-## 📊 Templates de Rapport Adaptatifs
+## 📊 Formats de Rapport
 
-### Rapport Tâche Simple
+### Rapport de Test
 ```markdown
-SIMPLE TASK REPORT
-==================
-Task: [description]
-Status: [completed/failed]
-Command: [command executed]
-Result: [1-line outcome]
-Time: [duration]
+TEST EXECUTION REPORT
+====================
+Timestamp: 2024-01-15 14:32:45
+Command: npm test
 
-Next: [action si échec, sinon rien]
-```
+Results:
+- Total: 45 tests
+- Passed: 42 (93.3%)  
+- Failed: 3 (6.7%)
+- Duration: 4.7s
 
-### Rapport Tâche Complexe
-```markdown
-COMPLEX TASK REPORT
-===================
-Task: [description]
-Timestamp: [start] - [end]
-Steps completed: X/Y
-
-Results by Step:
-1. [step]: [status] ([duration])
-   - Command: [command]
-   - Output: [key output lines]
-   - Validation: [test/proof]
-
-2. [step]: [status] ([duration])
-   - ...
-
-Overall Status: [passed/partial/failed]
-Metrics Changed:
-- [metric]: [before] → [after] ([delta])
-
-Issues Found:
-- [issue 1]: [resolution]
-- [issue 2]: [pending]
+Failed Tests:
+1. auth.test.js:34 - "should reject invalid token"
+   Error: Expected 401, received 200
+2. user.test.js:89 - "should validate email"
+   Error: Regex pattern mismatch
+3. api.test.js:156 - "should handle timeout"
+   Error: Timeout after 5000ms
 
 Next Actions:
-- [immediate action]
-- [validation needed]
+- Fix auth middleware (src/auth.js:67)
+- Update email regex (src/validators.js:23)
+- Increase timeout or optimize query
 ```
 
-### Rapport Tâche Critique
+### Rapport de Performance
 ```markdown
-CRITICAL TASK REPORT
-====================
-Task: [description]
-Impact Level: [architectural/security/performance]
-Timestamp: [start] - [end]
-Validation Status: [collaborative review completed]
+PERFORMANCE ANALYSIS
+===================
+Baseline: commit a4f3d2e (2024-01-14)
+Current: commit b7c9f1a (2024-01-15)
 
-IMPLEMENTATION PHASES:
-Phase 1: Analysis
-- Duration: [time]
-- Findings: [key discoveries]
-- Decisions: [architectural choices]
-- Validation: [review/approval]
+Metrics:
+| Operation | Before | After | Change |
+|-----------|--------|-------|--------|
+| API /users | 230ms | 87ms | -62.2% |
+| DB query | 145ms | 43ms | -70.3% |
+| Build time | 34s | 21s | -38.2% |
 
-Phase 2: Implementation
-- Steps: X/Y completed
-- Tests: [all passed/failed]
-- Regressions: [none/list]
-- Coverage: [before] → [after]
-
-Phase 3: Validation
-- Integration tests: [status]
-- Performance tests: [results]
-- Security scan: [results]
-- User acceptance: [status]
-
-RISK ASSESSMENT:
-- High risks: [list]
-- Mitigations: [implemented]
-- Monitoring: [metrics to watch]
-- Rollback: [plan/triggers]
-
-POST-DEPLOYMENT:
-- Monitoring plan: [details]
-- Success criteria: [metrics]
-- Review schedule: [timeline]
+Validation:
+- Benchmark: npm run benchmark (see benchmark.json)
+- Load test: 1000 req/s sustained
+- No regression in other endpoints
 ```
-<!-- FIN AJOUT v2 -->
 
 ## ✅ Admission d'Incertitude
 
@@ -332,14 +231,14 @@ POST-DEPLOYMENT:
 ```markdown
 Status: Partiellement résolu
 - Confirmé: [ce qui marche avec preuve]
-- Non testé: [ce qui reste à valider]
+- Non testé: [ce qui reste à valider]  
 - Risques: [impacts possibles]
 - Prochaines étapes: [actions concrètes]
 ```
 
 ## 🎬 Exemples de Validation Correcte
 
-### Exemple 1: Fix de Bug Simple
+### Exemple 1: Fix de Bug
 ```bash
 $ npm test auth.test.js
   auth module
@@ -351,11 +250,11 @@ $ npm test auth.test.js
 
 $ vim src/auth.js  # Fix: Ajout check token ligne 67
 
-$ npm test auth.test.js
+$ npm test auth.test.js  
   auth module
     ✓ should authenticate valid user (43ms)
     ✓ should reject invalid token (12ms)
-
+    
 ✅ VALIDATION: Bug authentification corrigé
 - Fichier: src/auth.js:67
 - Change: Ajout `if (!token.valid) return 401`
@@ -363,14 +262,14 @@ $ npm test auth.test.js
 - Durée fix: 3 minutes
 ```
 
-### Exemple 2: Optimisation Complexe
+### Exemple 2: Optimisation
 ```bash
 $ npm run benchmark > before.txt
 Average response: 1250ms
 
-$ # Implémentation cache Redis (phase 1-3)
+$ # Implémentation cache Redis
 
-$ npm run benchmark > after.txt
+$ npm run benchmark > after.txt  
 Average response: 230ms
 
 ✅ VALIDATION: Performance améliorée
@@ -380,8 +279,6 @@ Average response: 230ms
 - Gain: -81.6%
 - Méthode: Cache Redis (src/cache.js)
 - Tests: performance.test.js tous verts
-- Régression: Aucune (npm test:all passed)
-- Monitoring: Response time < 300ms alerting setup
 ```
 
 ## 🔴 Sanctions Non-Respect
@@ -400,10 +297,10 @@ Average response: 230ms
 - Obligation de re-valider TOUT le travail
 - Rollback complet des changements
 - Documentation de l'incident
-- Révision du CLAUDE-v2.md
+- Révision du CLAUDE.md
 ```
 
 ---
 **Rappel** : Ce document est OBLIGATOIRE. Le non-respect = échec de la tâche.
 
-**Voir aussi** : CLAUDE-v2.md | CLAUDE-WORKFLOWS-v2.md | CLAUDE-ERRORS.md
+**Voir aussi** : CLAUDE.md | CLAUDE-WORKFLOWS.md | CLAUDE-ERRORS.md
