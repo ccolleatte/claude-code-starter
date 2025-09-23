@@ -1,255 +1,226 @@
-# 🤖 Claude Starter Kit v4.1
+# 🛠️ Claude Code Starter Kit
 
-> **Claude Code Configuration Framework**  
-> Anti-hallucination • Modular Architecture • Comprehensive Testing • Real-time Monitoring
+> Personal project consolidating Claude Code best practices
+> in a continuous improvement approach
 
-[![CI/CD Status](https://github.com/ccolleatte/claude-code-starter/workflows/Claude%20Config%20Validation/badge.svg)](https://github.com/ccolleatte/claude-code-starter/actions)
-[![Framework Version](https://img.shields.io/badge/Framework-v4.1.0-blue.svg)](https://github.com/ccolleatte/claude-code-starter)
-[![Test Coverage](https://img.shields.io/badge/Coverage-90%25-green.svg)](tests/)
-[![Security Score](https://img.shields.io/badge/Security-A+-green.svg)](docs/claude/MONITORING.md)
+**Status**: Experimental • **Focus**: Quality > Quantity • **Community**: Contributions welcome
 
----
-
-## 🌱 Personal note
-
-This project is **experimental**: it primarily aims to aggregate best practices around **Claude Code** configuration.
-We started with MCPs focused on **code quality** and **security**, but the ambition is to gradually expand the scope.
-
-All ideas, suggestions, or feedback are **welcome** to evolve this starter kit in a truly community-driven approach.
+[![Test Status](https://github.com/ccolleatte/claude-code-starter/workflows/Claude%20Config%20Validation/badge.svg)](https://github.com/ccolleatte/claude-code-starter/actions)
+[![Version](https://img.shields.io/badge/Version-v4.2.0-blue.svg)](https://github.com/ccolleatte/claude-code-starter)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-## 🎯 Quick Start
+## 💡 Why this project?
+
+I developed this kit for **my own needs** while working with Claude Code.
+Rather than keeping these practices to myself, I'm sharing them hoping they
+might be useful to other developers.
+
+**This is not** an enterprise-ready framework.
+**This is** a collection of tested and documented best practices.
+
+---
+
+## 📈 Current status
+
+**🌱 Project in development**
+- **Goal**: Document and share Claude Code best practices
+- **Approach**: Iteration and improvement based on real usage
+- **Philosophy**: Transparency and authenticity first
+- **Community**: Building, all contributions appreciated
+
+### What already works
+- ✅ Claude v2 instructions with adaptive workflow
+- ✅ Native TodoWrite integration
+- ✅ Autonomous MCP configuration
+- ✅ Proof-driven documentation
+- ✅ Basic test suite
+
+### What remains to be done
+- 🔄 Reusable templates (in progress)
+- 🔄 Real performance metrics
+- 🔄 Community feedback
+
+---
+
+## 🚀 Quick start
 
 ```bash
 # Clone and setup
 git clone https://github.com/ccolleatte/claude-code-starter.git
 cd claude-code-starter
 
-# Configure environment
+# Environment setup
 cp .env.example .env
 # Edit .env with your API keys
 
-# Validate setup
+# Installation validation
 npm run validate
 
 # Run tests
 npm test
-
-# Start monitoring dashboard
-python -m http.server 8000
-# Open http://localhost:8000/.claude/metrics/dashboard.html
 ```
 
-## 📁 Framework Structure
+## 📁 Project structure
 
 ```
-├── .claude/                    # 🔧 Core configuration
-│   ├── CLAUDE.md              # Critical rules (<150 lines)
-│   ├── CLAUDE-WORKFLOWS.md    # Detailed processes
-│   ├── CLAUDE-VALIDATION.md   # Anti-bullshit validation
-│   ├── CLAUDE-ERRORS.md       # Error patterns library
-│   ├── CLAUDE-SETTINGS.md     # Security configuration
+├── .claude/                    # 🔧 Central configuration
+│   ├── CLAUDE.md              # Critical rules (v2)
+│   ├── CLAUDE-WORKFLOWS.md    # Detailed workflows
+│   ├── CLAUDE-VALIDATION.md   # Proof-driven validation
+│   ├── CLAUDE-ERRORS.md       # Error library
 │   ├── scripts/               # MCP server scripts
-│   └── metrics/               # Monitoring dashboard
-├── docs/claude/               # 📖 Documentation
-│   ├── DIAGRAMS.md           # Architecture diagrams
-│   ├── MONITORING.md         # KPIs and alerting
-│   ├── CI-CD-GUIDE.md        # Pipeline documentation
-├── tests/claude/              # 🧪 Comprehensive test suite
-│   ├── test_templates_syntax.py
-│   ├── test_mcp_scripts.py
-│   └── test_integration.py
-├── scripts/                   # 🛠️ Utilities
-│   └── claude-metrics.sh     # Metrics collection
-└── .github/workflows/         # 🚀 CI/CD automation
-    └── claude-validation.yml
+│   └── metrics/               # Monitoring (basic)
+├── docs/                      # 📖 Documentation
+├── tests/                     # 🧪 Tests (18 tests)
+└── scripts/                   # 🛠️ Utilities
 ```
 
-## 🎨 Visual Architecture
+## 🎯 Key innovations
 
-### Framework Overview
-```mermaid
-graph TB
-    USER[👤 Developer] --> CLAUDE[🤖 Claude Agent]
-    CLAUDE --> CONFIG[📋 v4.1 Framework]
-    CONFIG --> MCP[🌐 MCP Servers]
-    CONFIG --> MONITOR[📊 Monitoring]
-    CONFIG --> CICD[🚀 CI/CD]
-    
-    classDef user fill:#e1f5fe
-    classDef claude fill:#f3e5f5
-    classDef config fill:#e8f5e8
-    classDef external fill:#fff3e0
-    
-    class USER user
-    class CLAUDE claude
-    class CONFIG config
-    class MCP,MONITOR,CICD external
+### 1. **Adaptive workflow (v2)**
+- Automatic task classification (Simple/Complex/Critical)
+- Graduated communication based on complexity
+- Conditional validation (no over-processing)
+
+### 2. **Native TodoWrite**
+- Abandon external files (tasks/todo.md)
+- Real-time tracking integrated with Claude Code
+- Single in_progress task at a time
+
+### 3. **Proof-driven validation**
+- Never claim without execution proof
+- Automatic stop conditions
+- Strict anti-hallucination
+
+## 🔴 Critical rules
+
+```bash
+1. NEVER create without analyzing: mcp__serena__list_dir MANDATORY
+2. ALWAYS prove by execution: No claims without output
+3. TodoWrite MANDATORY: Integrated tool exclusively
+4. Tests before code: RED → GREEN → REFACTOR without exception
 ```
-
-*[Full diagrams available in docs/claude/DIAGRAMS.md]*
-
-## 🔴 Critical Rules
-
-1. **JAMAIS créer sans analyser** : `mcp__serena__list_dir` OBLIGATOIRE avant création
-2. **TOUJOURS prouver par exécution** : Pas d'affirmation sans output réel
-3. **JAMAIS modifier main** : Branches feature/* ou fix/* uniquement  
-4. **Tests avant code** : RED → GREEN → REFACTOR sans exception
 
 *[Complete rules in .claude/CLAUDE.md]*
 
-## ⚡ Key Commands
+## ⚡ Essential commands
 
 ```bash
 # Development
-npm run validate          # Full framework validation
-npm run test:all         # Complete test suite
+npm run validate          # Complete validation
+npm test                  # Test suite
 npm run check:env        # Environment verification
-npm run benchmark        # Performance check
 
-# Monitoring
-scripts/claude-metrics.sh dashboard 24    # 24h metrics
-scripts/claude-metrics.sh report         # Daily report
-scripts/claude-metrics.sh hallucination "type" "severity" "context"
+# Quality
+npm run lint             # Linting
+npm run format           # Formatting
 
 # CI/CD
 npm run ci:local         # Pre-commit validation
-.github/workflows/validate-local.sh    # Local pipeline test
 ```
 
-## 📊 Monitoring Dashboard
+## 🧪 Testing and quality
 
-Real-time metrics and health monitoring:
-
-- **🚨 Hallucination Counter**: Daily tracking with alerts
-- **⏱️ Performance Metrics**: Response times and resource usage  
-- **📋 Template Usage**: Adoption and success rates
-- **🔒 Security Status**: Vulnerability and compliance checks
-
-**Access**: [Local Dashboard](http://localhost:8000/.claude/metrics/dashboard.html) | [Setup Guide](docs/claude/MONITORING.md)
-
-## 🧪 Testing Strategy
-
-### Comprehensive Test Coverage (18 tests)
+**Basic test suite** (18 tests):
+- Template syntax validation
+- MCP scripts functionality
+- Integration tests
 
 ```bash
-# Template syntax validation (5 tests)
+# All tests
+npm test
+
+# Specific tests
 pytest tests/claude/test_templates_syntax.py
-
-# MCP scripts functionality (6 tests)  
 pytest tests/claude/test_mcp_scripts.py
-
-# Integration validation (7 tests)
-pytest tests/claude/test_integration.py
 ```
 
-### Quality Gates
-- ✅ Template syntax validation
-- ✅ MCP server connectivity  
-- ✅ Security scan (0 vulnerabilities)
-- ✅ Performance benchmarks (<100ms config load)
-- ✅ Anti-hallucination patterns
+**Quality objectives** (modest but real):
+- ✅ Valid template syntax
+- ✅ Functional MCP scripts
+- ✅ Coherent configuration
+- 🔄 Test coverage to improve
 
-## 🚀 CI/CD Pipeline
+## 🔧 Integrated MCP servers
 
-Automated validation on every commit:
+| Server | Usage | Status |
+|---------|-------|---------|
+| **Serena** | Code analysis & editing | ✅ Tested |
+| **Cipher** | Persistent memory | ✅ Tested |
+| **Semgrep** | Security analysis | ✅ Tested |
+| **Exa** | Documentation search | 🔄 Optional |
 
-```yaml
-# 4 parallel validation jobs
-✓ Template Syntax Validation
-✓ MCP Scripts Functionality  
-✓ Security & Secrets Scan
-✓ Performance & Integration Tests
-```
-
-**Status**: [![CI Status](https://github.com/ccolleatte/claude-code-starter/workflows/Claude%20Config%20Validation/badge.svg)](https://github.com/ccolleatte/claude-code-starter/actions)
-
-## 🔒 Security Features
-
-- **🛡️ Secret Management**: Proper .env handling with .gitignore
-- **🔍 Vulnerability Scanning**: Gitleaks + Semgrep integration
-- **🔐 Permission System**: Granular command permissions
-- **📋 Compliance**: SOC2/ISO27001 aligned practices
-
-## 📈 Performance Metrics
-
-| Metric | Target | Current | Status |
-|--------|--------|---------|---------|
-| Config Load Time | <100ms | 45ms | ✅ |
-| Test Suite Duration | <30s | 12s | ✅ |
-| Memory Usage | <50MB | 28MB | ✅ |
-| Framework Size | <10MB | 2.1MB | ✅ |
-
-**Breaking Changes**: Modular structure, new testing requirements, monitoring integration
-
-## 🛠️ MCP Server Integration
-
-| Server | Purpose | Status |
-|--------|---------|---------|
-| **Serena** | Code analysis & editing | ✅ Active |
-| **Cipher** | Memory & context management | ✅ Active |
-| **Semgrep** | Security analysis | ✅ Active |
-| **Exa** | Documentation search | ✅ Active |
-
-*Configuration: [.claude/scripts/](/.claude/scripts/)*
-
+*Configuration: [.claude/scripts/](.claude/scripts/)*
 
 ## 📚 Documentation
 
-| Document | Purpose | Audience |
+| Document | Content | Audience |
 |----------|---------|----------|
-| [CLAUDE.md](.claude/CLAUDE.md) | Critical rules & commands | All users |
-| [WORKFLOWS](docs/claude/CLAUDE-WORKFLOWS.md) | Detailed processes | Developers |
-| [VALIDATION](docs/claude/CLAUDE-VALIDATION.md) | Anti-BS validation | Quality teams |
-| [MONITORING](docs/claude/MONITORING.md) | KPIs & alerting | DevOps |
-| [DIAGRAMS](docs/claude/DIAGRAMS.md) | Architecture visuals | Architects |
+| [CLAUDE.md](.claude/CLAUDE.md) | Critical rules v2 | Everyone |
+| [CLAUDE-WORKFLOWS.md](.claude/CLAUDE-WORKFLOWS.md) | TodoWrite workflows | Developers |
+| [CLAUDE-VALIDATION.md](.claude/CLAUDE-VALIDATION.md) | Adaptive validation | Quality |
 
 ## 🤝 Contributing
 
+**All contributions are welcome!**
+
 1. **Fork** the repository
-2. **Create** feature branch: `git checkout -b feature/amazing-improvement`
-3. **Validate** changes: `npm run ci:local`
-4. **Test** thoroughly: `npm test`
-5. **Commit** with clear message: `git commit -m "feat: add amazing improvement"`
-6. **Push** and create PR
+2. **Create** a branch: `git checkout -b feature/improvement`
+3. **Test**: `npm test`
+4. **Commit**: `git commit -m "feat: add improvement"`
+5. **Push** and create PR
 
-**Requirements**: All PRs must pass CI pipeline and maintain 90%+ test coverage.
+**No strict requirements** - any help is appreciated, even small improvements.
 
-## 🚀 Project Status
+## 📊 Real metrics
 
-**⚡ Early Launch Phase**
+**Current performance** (measured):
+- Config loading time: ~45ms
+- Test suite duration: ~12s
+- Kit size: ~2.1MB
 
-This Claude Starter Kit is currently in its **initial release phase**. We're gathering feedback from early adopters to validate the framework's utility and usability.
+**Usage** (honest):
+- Active users: Under evaluation
+- Open issues: See [GitHub Issues](https://github.com/ccolleatte/claude-code-starter/issues)
+- Contributions: First PRs expected
 
-### What's Ready
-- ✅ Core framework structure and configuration
-- ✅ Complete test suite with CI/CD automation
-- ✅ Security scanning and monitoring tools
-- ✅ Documentation and setup guides
+## 🔍 Next steps
 
-### Community Development
-We'll focus on **community building and outreach** if we see genuine adoption and positive feedback from developers using this kit. Our approach:
+**Short-term priorities**:
+- 📋 Improve basic templates
+- 🧪 Extend test coverage
+- 📖 Enrich documentation
+- 🔄 Gather user feedback
 
-- **📊 Usage Metrics**: Tracking real usage patterns
-- **🎯 User Feedback**: Learning from actual implementation experiences
-- **🤝 Community Growth**: Building sustainable engagement if the kit proves valuable
+**Long-term vision**:
+- Develop a real community if adoption happens
+- Integrate more useful MCP servers
+- Create use-case specific guides
 
-**Current Focus**: Validating the framework through real-world usage rather than premature community initiatives.
+## 🚨 Current limitations
 
-## 📞 Support & Feedback
+**Let's be transparent**:
+- Configuration can be complex for beginners
+- Tests still basic (no E2E)
+- Incomplete documentation on some aspects
+- Limited metrics (no fancy dashboard)
 
-- **🐛 Issues**: [GitHub Issues](https://github.com/ccolleatte/claude-code-starter/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/ccolleatte/claude-code-starter/discussions)
-- **📖 Docs**: [Documentation Hub](docs/claude/)
-- **🔄 Updates**: [Release Notes](https://github.com/ccolleatte/claude-code-starter/releases)
+**But it's an honest start!**
+
+## 📞 Support and contact
+
+- **🐛 Bugs**: [GitHub Issues](https://github.com/ccolleatte/claude-code-starter/issues)
+- **💬 Questions**: [GitHub Discussions](https://github.com/ccolleatte/claude-code-starter/discussions)
+- **📧 Direct contact**: GitHub Issues preferred
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Claude Starter Kit v4.1** - *Empowering developers with doctoral-level AI configuration standards*
+**Claude Code Starter Kit v4.2** - *A modest project growing with its community*
 
-⭐ **Star this repo** if it helped improve your Claude development workflow!
+⭐ **Star this repo** if these practices helped you in your Claude development!

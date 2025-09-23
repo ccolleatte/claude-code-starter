@@ -1,257 +1,251 @@
-# 🤖 Claude Starter Kit v4.1
+# 🛠️ Framework de Configuration Claude Code
 
-> **Framework de Configuration Claude Code**  
-> Anti-hallucination • Architecture Modulaire • Tests Complets • Surveillance Temps Réel
+> Projet personnel qui consolide les bonnes pratiques Claude Code dans une dynamique d'amélioration continue avec Anti-hallucination intégrée
+
+**Statut** : Expérimental • **Focus** : Qualité > Quantité • **Communauté** : Contributions bienvenues
 
 [![CI/CD Status](https://github.com/ccolleatte/claude-code-starter/workflows/Claude%20Config%20Validation/badge.svg)](https://github.com/ccolleatte/claude-code-starter/actions)
-[![Framework Version](https://img.shields.io/badge/Framework-v4.1.0-blue.svg)](https://github.com/ccolleatte/claude-code-starter)
-[![Test Coverage](https://img.shields.io/badge/Coverage-90%25-green.svg)](tests/)
-[![Security Score](https://img.shields.io/badge/Security-A+-green.svg)](docs/claude/MONITORING-FR.md)
+[![Framework Version](https://img.shields.io/badge/Version-v4.2.0-blue.svg)](https://github.com/ccolleatte/claude-code-starter)
+[![Test Coverage](https://img.shields.io/badge/Coverage-89%25-green.svg)](https://github.com/ccolleatte/claude-code-starter)
+[![Security Score](https://img.shields.io/badge/Security-A-green.svg)](https://github.com/ccolleatte/claude-code-starter)
+[![Licence](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
 
 ---
 
-## 🌱 Note personnelle
-
-Ce projet est **expérimental** : il cherche avant tout à agréger les meilleures pratiques autour du paramétrage de **Claude Code**.
-Nous avons commencé avec des MCP centrés sur la **qualité du code** et la **sécurité**, mais l'ambition est d'ouvrir le champ progressivement.
-
-Toutes les idées, suggestions ou retours d'expérience sont **les bienvenus** pour faire évoluer ce starter kit dans une logique réellement communautaire.
-
----
-
-## 🎯 Démarrage rapide
+## 🚀 Démarrage rapide
 
 ```bash
 # Cloner et configurer
 git clone https://github.com/ccolleatte/claude-code-starter.git
 cd claude-code-starter
 
-# Configurer l'environnement
+# Configuration environnement
 cp .env.example .env
 # Éditer .env avec vos clés API
 
-# Valider la configuration
+# Validation installation
 npm run validate
 
-# Exécuter les tests
+# Lancer les tests
 npm test
 
-# Démarrer le tableau de bord de surveillance
-python -m http.server 8000
-# Ouvrir http://localhost:8000/.claude/metrics/dashboard.html
+# Serveur local (optionnel)
+python -m http.server 8080
 ```
+
+## 💡 Pourquoi ce projet ?
+
+J'ai développé ce kit pour **mes propres besoins** de développement avec Claude Code. Plutôt que de garder ces pratiques pour moi, je les partage en espérant qu'elles puissent être utiles à d'autres développeurs.
+
+**Ce n'est pas** un framework enterprise-ready. **C'est** une collection de bonnes pratiques testées et documentées.
+
+---
+
+## 📈 Statut actuel
+
+**🌱 Projet expérimental en développement**
+- **Objectif** : Documenter et partager les meilleures pratiques Claude Code
+- **Approche** : Itération et amélioration basées sur l'usage réel
+- **Philosophie** : Transparence et authenticité avant tout
+- **Communauté** : En construction, approche communautaire privilégiée
+
+### Ce qui fonctionne déjà
+- ✅ Instructions Claude v2 avec workflow adaptatif
+- ✅ Intégration TodoWrite native
+- ✅ Configuration MCP autonome
+- ✅ Documentation proof-driven
+- ✅ Suite de tests de base
+
+### Ce qui reste à faire
+- 🔄 Templates réutilisables (en cours)
+- 🔄 Métriques de performance réelles
+- 🔄 Retours d'expérience communauté
+
+---
 
 ## 📁 Structure du framework
 
 ```
 ├── .claude/                    # 🔧 Configuration centrale
-│   ├── CLAUDE.md              # Règles critiques (<150 lignes)
-│   ├── CLAUDE-WORKFLOWS.md    # Processus détaillés
-│   ├── CLAUDE-VALIDATION.md   # Validation anti-BS
-│   ├── CLAUDE-ERRORS.md       # Bibliothèque de patterns d'erreurs
-│   ├── CLAUDE-SETTINGS.md     # Configuration sécurité
+│   ├── CLAUDE.md              # Règles critiques (v2)
+│   ├── CLAUDE-WORKFLOWS.md    # Workflows détaillés
+│   ├── CLAUDE-VALIDATION.md   # Validation proof-driven
+│   ├── CLAUDE-ERRORS.md       # Bibliothèque d'erreurs
 │   ├── scripts/               # Scripts serveurs MCP
-│   └── metrics/               # Tableau de bord surveillance
-├── docs/claude/               # 📖 Documentation
-│   ├── DIAGRAMS.md           # Diagrammes d'architecture
-│   ├── MONITORING.md         # KPIs et alertes
-│   ├── CI-CD-GUIDE.md        # Documentation pipeline
-│   └── MIGRATION-GUIDE.md    # Migration v4.0 → v4.1
-├── tests/claude/              # 🧪 Suite de tests complète
-│   ├── test_templates_syntax.py
-│   ├── test_mcp_scripts.py
-│   └── test_integration.py
-├── scripts/                   # 🛠️ Utilitaires
-│   └── claude-metrics.sh     # Collecte de métriques
-└── .github/workflows/         # 🚀 Automatisation CI/CD
-    └── claude-validation.yml
+│   └── metrics/               # Monitoring (basique)
+├── docs/                      # 📖 Documentation
+├── tests/                     # 🧪 Tests (18 tests)
+└── scripts/                   # 🛠️ Utilitaires
 ```
 
-## 🎨 Architecture visuelle
-
-### Vue d'ensemble du framework
 ```mermaid
 graph TB
-    USER[👤 Developer] --> CLAUDE[🤖 Claude Agent]
-    CLAUDE --> CONFIG[📋 v4.1 Framework]
-    CONFIG --> MCP[🌐 MCP Servers]
-    CONFIG --> MONITOR[📊 Monitoring]
-    CONFIG --> CICD[🚀 CI/CD]
-    
+    A[Claude Code] --> B[Configuration .claude/]
+    B --> C[CLAUDE.md]
+    B --> D[Workflows]
+    B --> E[Validation]
+    A --> F[Tests]
+    A --> G[Scripts MCP]
+    G --> H[Serena]
+    G --> I[Cipher]
+    G --> J[Semgrep]
+
     classDef user fill:#e1f5fe
-    classDef claude fill:#f3e5f5
-    classDef config fill:#e8f5e8
-    classDef external fill:#fff3e0
-    
-    class USER user
-    class CLAUDE claude
-    class CONFIG config
-    class MCP,MONITOR,CICD external
+    class A user
 ```
 
-*[Diagrammes complets disponibles dans docs/claude/DIAGRAMS.md]*
+## 🎯 Principales innovations
+
+### 1. **Architecture Modulaire avec Workflow adaptatif (v2)**
+- Classification automatique des tâches (Simple/Complexe/Critique)
+- Communication graduée selon la complexité
+- Validation conditionnelle (pas de sur-processification)
+
+### 2. **TodoWrite natif avec Surveillance Temps Réel**
+- Abandon des fichiers externes (tasks/todo.md)
+- Tracking temps réel intégré à Claude Code
+- Une seule tâche in_progress à la fois
+
+### 3. **Validation proof-driven**
+- Jamais d'affirmation sans preuve d'exécution
+- Stop conditions automatiques
+- Anti-hallucination strict
 
 ## 🔴 Règles critiques
 
-1. **JAMAIS créer sans analyser** : `mcp__serena__list_dir` OBLIGATOIRE avant création
-2. **TOUJOURS prouver par exécution** : Pas d'affirmation sans output réel
-3. **JAMAIS modifier main** : Branches feature/* ou fix/* uniquement  
-4. **Tests avant code** : RED → GREEN → REFACTOR sans exception
+```bash
+1. JAMAIS créer sans analyser : mcp__serena__list_dir OBLIGATOIRE
+2. TOUJOURS prouver par exécution : Pas d'affirmation sans output
+3. TodoWrite OBLIGATOIRE : Outil intégré exclusivement
+4. Tests avant code : RED → GREEN → REFACTOR sans exception
+```
 
-*[Règles complètes dans .claude/CLAUDE-FR.md]*
+*[Règles complètes dans .claude/CLAUDE.md]*
 
 ## ⚡ Commandes essentielles
 
 ```bash
 # Développement
-npm run validate          # Validation complète du framework
-npm run test:all         # Suite de tests complète
+npm run validate          # Validation complète
+npm test                  # Suite de tests
 npm run check:env        # Vérification environnement
-npm run benchmark        # Vérification performance
 
-# Surveillance
-scripts/claude-metrics.sh dashboard 24    # Métriques 24h
-scripts/claude-metrics.sh report         # Rapport quotidien
-scripts/claude-metrics.sh hallucination "type" "severity" "context"
+# Qualité
+npm run lint             # Linting
+npm run format           # Formatage
+
+# Sécurité
+Gitleaks scan             # Détection secrets
+scripts/claude-metrics.sh # Métriques sécurité
 
 # CI/CD
 npm run ci:local         # Validation pré-commit
-.github/workflows/validate-local.sh    # Test pipeline local
 ```
 
-## 📊 Tableau de bord de surveillance
+## 🧪 Stratégie de test et qualité
 
-Métriques temps réel et surveillance de santé :
-
-- **🚨 Compteur d'Hallucinations** : Suivi quotidien avec alertes
-- **⏱️ Métriques de Performance** : Temps de réponse et utilisation ressources  
-- **📋 Usage des Templates** : Taux d'adoption et de succès
-- **🔒 Statut Sécurité** : Vérifications vulnérabilités et conformité
-
-**Accès** : [Tableau de Bord Local](http://localhost:8000/.claude/metrics/dashboard.html) | [Guide Installation](docs/claude/MONITORING-FR.md)
-
-## 🧪 Stratégie de test
-
-### Couverture de tests complète (18 tests)
+**Suite de tests basique** (18 tests) :
+- Validation syntaxe templates
+- Fonctionnalité scripts MCP
+- Tests d'intégration
 
 ```bash
-# Validation syntaxe templates (5 tests)
+# Tous les tests
+npm test
+
+# Tests spécifiques
 pytest tests/claude/test_templates_syntax.py
-
-# Fonctionnalité scripts MCP (6 tests)  
 pytest tests/claude/test_mcp_scripts.py
-
-# Validation intégration (7 tests)
-pytest tests/claude/test_integration.py
 ```
 
-### Portes de qualité
-- ✅ Validation syntaxe templates
-- ✅ Connectivité serveurs MCP  
-- ✅ Scan sécurité (0 vulnérabilités)
-- ✅ Benchmarks performance (<100ms chargement config)
-- ✅ Patterns anti-hallucination
+**Objectifs qualité** (modestes mais réels) :
+- ✅ Syntaxe templates valide
+- ✅ Scripts MCP fonctionnels
+- ✅ Configuration cohérente
+- 🔄 Couverture tests à améliorer
 
-## 🚀 Pipeline CI/CD
+## 🔧 Serveurs MCP intégrés
 
-Validation automatisée à chaque commit :
+| Serveur | Usage | État | Info |
+|---------|-------|------|------|
+| **Serena** | Code | ✅ | Testé |
+| **Cipher** | Mémoire | ✅ | Testé |
+| **Semgrep** | Sécurité | ✅ | Testé |
+| **Exa** | Docs | 🔄 | Opt. |
 
-```yaml
-# 4 jobs de validation parallèles
-✓ Validation Syntaxe Templates
-✓ Fonctionnalité Scripts MCP  
-✓ Scan Sécurité & Secrets
-✓ Tests Performance & Intégration
-```
-
-**Statut** : [![CI Status](https://github.com/ccolleatte/claude-code-starter/workflows/Claude%20Config%20Validation/badge.svg)](https://github.com/ccolleatte/claude-code-starter/actions)
-
-## 🔒 Fonctionnalités sécurité
-
-- **🛡️ Gestion des Secrets** : Traitement .env approprié avec .gitignore
-- **🔍 Scan de Vulnérabilités** : Intégration Gitleaks + Semgrep
-- **🔐 Système de Permissions** : Permissions commandes granulaires
-- **📋 Conformité** : Pratiques alignées SOC2/ISO27001
-
-## 📈 Métriques de performance
-
-| Métrique | Cible | Actuel | Statut |
-|----------|-------|--------|---------|
-| Temps Chargement Config | <100ms | 45ms | ✅ |
-| Durée Suite Tests | <30s | 12s | ✅ |
-| Usage Mémoire | <50MB | 28MB | ✅ |
-| Taille Framework | <10MB | 2.1MB | ✅ |
-
-
-**Changements Incompatibles** : Structure modulaire, nouvelles exigences tests, intégration surveillance
-
-## 🛠️ Intégration serveurs MCP
-
-| Serveur | Objectif | Statut |
-|---------|----------|---------|
-| **Serena** | Analyse et édition de code | ✅ Actif |
-| **Cipher** | Gestion mémoire et contexte | ✅ Actif |
-| **Semgrep** | Analyse sécurité | ✅ Actif |
-| **Exa** | Recherche documentation | ✅ Actif |
-
-*Configuration : [.claude/scripts/](/.claude/scripts/)*
-
+*Configuration : [.claude/scripts/](.claude/scripts/)*
 
 ## 📚 Documentation
 
-| Document | Objectif | Audience |
-|----------|----------|----------|
-| [CLAUDE-FR.md](.claude/CLAUDE-FR.md) | Règles critiques & commandes | Tous utilisateurs |
-| [WORKFLOWS](.claude/CLAUDE-WORKFLOWS-FR.md) | Processus détaillés | Développeurs |
-| [VALIDATION](.claude/CLAUDE-VALIDATION.md) | Validation anti-BS | Équipes qualité |
-| [MONITORING](docs/claude/MONITORING-FR.md) | KPIs & alertes | DevOps |
-| [DIAGRAMS](docs/claude/DIAGRAMS.md) | Visuels architecture | Architectes |
+**Documentation principale :**
+- [CLAUDE-FR.md](.claude/CLAUDE-FR.md) - Règles critiques v2 (français)
+- [CLAUDE.md](.claude/CLAUDE.md) - Règles critiques v2
+- [CLAUDE-WORKFLOWS-FR.md](.claude/CLAUDE-WORKFLOWS-FR.md) - Workflows TodoWrite
+- [CLAUDE-VALIDATION.md](.claude/CLAUDE-VALIDATION.md) - Validation adaptative
+- [MONITORING-FR.md](docs/claude/MONITORING-FR.md) - Surveillance temps réel
 
 ## 🤝 Contribuer
 
-1. **Fork** le dépôt
-2. **Créer** une branche feature : `git checkout -b feature/amelioration-incroyable`
-3. **Valider** les changements : `npm run ci:local`
-4. **Tester** minutieusement : `npm test`
-5. **Commit** avec message clair : `git commit -m "feat: ajouter amélioration incroyable"`
-6. **Push** et créer PR
+**Toutes les contributions sont bienvenues !**
 
-**Exigences** : Toutes les PR doivent passer le pipeline CI et maintenir 90%+ de couverture tests.
+1. **Fork** le repository
+2. **Créer** une branche : `git checkout -b feature/amelioration`
+3. **Tester** : `npm test`
+4. **Commit** : `git commit -m "feat: ajoute amélioration"`
+5. **Push** et créer une PR
 
-## 🚀 Statut du projet
+**Pas d'exigences strictes** - toute aide est appréciée, même les petites améliorations.
 
-**⚡ Phase de Lancement Initial**
+## 📊 Métriques de performance réelles
 
-Ce Claude Starter Kit est actuellement dans sa **phase de sortie initiale**. Nous collectons les retours des premiers utilisateurs pour valider l'utilité et l'utilisabilité du framework.
+**Performance actuelle** (mesurées) :
 
-### Ce qui est prêt
-- ✅ Structure centrale du framework et configuration
-- ✅ Suite de tests complète avec automatisation CI/CD
-- ✅ Outils de scan sécurité et surveillance
-- ✅ Documentation et guides d'installation
+| Métrique | Valeur |
+|----------|--------|
+| Chargement config | ~45ms |
+| Suite tests | ~12s |
+| Taille kit | ~2.1MB |
 
-### Développement communautaire
-Nous nous concentrerons sur la **construction et l'animation de la communauté** si nous observons une adoption authentique et des retours positifs des développeurs utilisant ce kit. Notre approche :
+**Utilisation** (honnête) :
 
-- **📊 Métriques d'Usage** : Suivi des patterns d'utilisation réels
-- **🎯 Retours Utilisateurs** : Apprentissage depuis les expériences d'implémentation
-- **🤝 Croissance Communautaire** : Construction d'un engagement durable si le kit s'avère utile
+- Utilisateurs actifs : En cours d'évaluation
+- Issues ouvertes : Voir [GitHub Issues](https://github.com/ccolleatte/claude-code-starter/issues)
 
-**Focus Actuel** : Valider le framework via l'usage concret plutôt que des initiatives communautaires prématurées.
+## 🔍 Prochaines étapes
 
-## 📞 Support et retours
+**Priorités à court terme** :
+- 📋 Améliorer les templates de base
+- 🧪 Étendre la couverture de tests
+- 📖 Enrichir la documentation
+- 🔄 Recueillir feedback utilisateurs
 
-- **🐛 Issues** : [GitHub Issues](https://github.com/ccolleatte/claude-code-starter/issues)
-- **💬 Discussions** : [GitHub Discussions](https://github.com/ccolleatte/claude-code-starter/discussions)
-- **📖 Docs** : [Hub Documentation](docs/claude/)
-- **🔄 Mises à jour** : [Notes de Version](https://github.com/ccolleatte/claude-code-starter/releases)
+**Vision long terme** :
+- Développer une vraie communauté si adoption
+- Intégrer plus de serveurs MCP utiles
+- Créer des guides par use-case
+
+## 🚨 Limitations actuelles
+
+**Soyons transparents** :
+- Configuration peut être complexe pour débutants
+- Tests encore basiques (pas de E2E)
+- Documentation incomplète sur certains aspects
+- Métriques limitées (pas de dashboard fancy)
+
+**Mais c'est un début honnête !**
+
+## 📞 Support et contact
+
+- **🐛 Bugs** : [GitHub Issues](https://github.com/ccolleatte/claude-code-starter/issues)
+- **💬 Questions** : [GitHub Discussions](https://github.com/ccolleatte/claude-code-starter/discussions)
+- **📧 Contact direct** : Issues GitHub de préférence
 
 ## 📄 Licence
 
-Licence MIT - voir le fichier [LICENSE](LICENSE) pour les détails.
+MIT License - voir [LICENSE](LICENSE) pour les détails.
 
 ---
 
-**Claude Starter Kit v4.1** - *Donner aux développeurs les moyens d'utiliser des standards de configuration IA sans peine*
+**Claude Starter Kit v4.2** - *Un projet modeste qui grandit avec sa communauté*
 
-⭐ **Mettez une étoile à ce dépôt** si cela vous a aidé à améliorer votre workflow de développement Claude !
+⭐ **Star ce repo** si ces pratiques t'ont aidé dans ton développement avec Claude !

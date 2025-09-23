@@ -493,4 +493,4 @@ git push origin hotfix-v1.2.4
 ```
 
 ---
-**Voir aussi** : CLAUDE-v2.md | CLAUDE-VALIDATION-v2.md | CLAUDE-ERRORS.md
+**Voir aussi** : CLAUDE.md | CLAUDE-VALIDATION.md | CLAUDE-ERRORS.md

@@ -400,10 +400,10 @@ Average response: 230ms
 - Obligation de re-valider TOUT le travail
 - Rollback complet des changements
 - Documentation de l'incident
-- Révision du CLAUDE-v2.md
+- Révision du CLAUDE.md
 ```
 
 ---
 **Rappel** : Ce document est OBLIGATOIRE. Le non-respect = échec de la tâche.
 
-**Voir aussi** : CLAUDE-v2.md | CLAUDE-WORKFLOWS-v2.md | CLAUDE-ERRORS.md
+**Voir aussi** : CLAUDE.md | CLAUDE-WORKFLOWS.md | CLAUDE-ERRORS.md
